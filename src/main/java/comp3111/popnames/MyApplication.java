@@ -47,7 +47,7 @@ public class MyApplication extends Application {
    		VBox root = (VBox) loader.load();
    		Scene scene =  new Scene(root);
    		stage.setScene(scene);
-   		stage.setTitle("Team T-51: Popular Names");
+   		stage.setTitle("Team T-51:  Popular Names");
    		stage.show();
 	}
 
