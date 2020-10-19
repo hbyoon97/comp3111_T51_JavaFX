@@ -4,6 +4,6 @@
 
 ## Han Byul (Tommy) Yoon
 
-email: hbyoon@connect.ust.hk | github:hbyoon97 | dev branch:hanbyul_dev
+email: hbyoon@connect.ust.hk | github: hbyoon97 | dev branch: hanbyul_dev
 
 Task 2 & Task 5
