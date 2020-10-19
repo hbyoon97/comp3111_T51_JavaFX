@@ -9,7 +9,7 @@ email: hbyoon@connect.ust.hk | github: hbyoon97 | dev branch: hanbyul_dev
 Task 2 & Task 5
 
 ## Chan Chin Ho Ryan
-email: chrchanaa@connect.ust.hk | github: chrchanaa |
-dev branch: chrchanaa_dev
+
+email: chrchanaa@connect.ust.hk | github: chrchanaa |    dev branch: chrchanaa_dev
 
 Task 1 & Task 4
