@@ -229,10 +229,6 @@ public class Controller {
     	
     	//getCount
     	numCount = AnalyzeNames.getNameCount(name, rbValue[0], period2);
-    	if(numCount == 0 && !invalid) {
-    		oReport = String.format("The name %s (%s) has not been ranked in the year %d", name, rbValue[0], period2);
-    		invalid = true;
-    	}
     	
     	//get totalBirth for specified
     	int totalBirth = AnalyzeNames.getTotalBirths(period2, rbValue[0]);
@@ -241,17 +237,19 @@ public class Controller {
     	}
     	
 
-    	//get name's popular_year and its count in that year and pop_year's total gender birth
-    	int popular_year = AnalyzeNames.mostPopularYear(period1, period2, name, rbValue[0]);
-    	int popularYearNamesBirth = AnalyzeNames.getNameCount(name, rbValue[0], popular_year);
-    	int popularYearTotalBirth = AnalyzeNames.getTotalBirths(popular_year, rbValue[0]);
-    	
+ 
     	
     	//valid oReport
     	if(!invalid) {
-    		oReport = String.format("In the year %d the number of birth with name %s is %d, ", period2, name, numCount);
-    		oReport += "which represents " + String.format("%.2f", (double)(numCount * 100)/totalBirth) 
-    				+ " percent of total " + gender + " births in " + period2 +". ";
+    		int popular_year = AnalyzeNames.mostPopularYear(period1, period2, name, rbValue[0]);
+        	int popularYearNamesBirth = AnalyzeNames.getNameCount(name, rbValue[0], popular_year);
+        	int popularYearTotalBirth = AnalyzeNames.getTotalBirths(popular_year, rbValue[0]);
+    		if(numCount == 0) oReport = String.format("The name %s (%s) has not been ranked in the year %d. ", name, rbValue[0], period2);
+    		else {
+    			oReport = String.format("In the year %d the number of birth with name %s is %d, ", period2, name, numCount);
+    			oReport += "which represents " + String.format("%.2f", (double)(numCount * 100)/totalBirth) 
+				+ " percent of total " + gender + " births in " + period2 +". ";
+    		}
     		oReport += String.format("The year when the name %s was most popular is %d. ", name, popular_year);
     		oReport += String.format("In that year, the number of births is %d, "
     				+ "which represents a %s percent of the total %s birth in %d"

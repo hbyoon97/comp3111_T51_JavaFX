@@ -116,11 +116,20 @@ public class AnalyzeNames {
 	 
 	 public static int mostPopularYear(int period1, int period2, String name, String gender) {
 		 int popular_year = period1;
-		 int maxRank = 100;
+		 int maxRank = 10000;
+		 double thisPercent;
+		 double maxPercent = 0.0;
 		 for(int i = period1; i<=period2; i++) {
-			 if(getRank(i, name, gender) < maxRank && getRank(i, name, gender) > 0) {
-				 popular_year = i;
+			 int iRank = getRank(i, name, gender);
+			 if(iRank < maxRank) {
+				 thisPercent = (double) getNameCount(name, gender, i) * 100 / getTotalBirths(i, gender);
+				 if(thisPercent > maxPercent) {
+					 maxPercent = thisPercent;
+					 maxRank = iRank;
+					 popular_year = i;
+				 }
 			 }
+			 System.out.println(i+ " " + maxRank);
 		 }
 		 return popular_year;
 	 }
