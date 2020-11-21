@@ -9,8 +9,7 @@ public class AnalyzeNames {
      FileResource fr = new FileResource(String.format("dataset/yob%s.csv", year));
      return fr.getCSVParser(false);
 	}
- 
-	
+
 	public static String getSummary(int year) {
 		String oReport = "";	
 		int totalBirths = 0;
@@ -92,6 +91,38 @@ public class AnalyzeNames {
 	     	return oName;
 	     else
 	     	return "information on the name at the specified rank is not available";
+	 }
+	 
+	 public static int getNameCount(String name, String gender, int year) {
+		 int count = 0;
+		 for (CSVRecord rec : getFileParser(year)) {
+			 if(rec.get(0).equals(name) && rec.get(1).equals(gender)) {
+				count = Integer.parseInt(rec.get(2)); 
+			 } 
+		 }
+		 return count;
+	 }
+	 
+	 public static int getTotalBirths(int year, String gender) {
+		 int totalBirth = 0;
+		 for (CSVRecord rec : getFileParser(year)) {
+			 if(rec.get(1).equals(gender)) {
+				int numBorn = Integer.parseInt(rec.get(2));
+				totalBirth += numBorn;
+			 }
+		 }
+		 return totalBirth;
+	 }
+	 
+	 public static int mostPopularYear(int period1, int period2, String name, String gender) {
+		 int popular_year = period1;
+		 int maxRank = 100;
+		 for(int i = period1; i<=period2; i++) {
+			 if(getRank(i, name, gender) < maxRank && getRank(i, name, gender) > 0) {
+				 popular_year = i;
+			 }
+		 }
+		 return popular_year;
 	 }
  
 }

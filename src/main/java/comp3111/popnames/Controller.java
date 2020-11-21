@@ -3,14 +3,22 @@
  */
 package comp3111.popnames;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 
 public class Controller {
+	
+	@FXML
+	private TabPane tabPane;
 
     @FXML
     private Tab tabTaskZero;
@@ -67,8 +75,22 @@ public class Controller {
     private Tab tabApp3;
 
     @FXML
-    private TextArea textAreaConsole;
+    private TextField textfieldTask2;   
     
+    @FXML
+    private RadioButton rbTask2_male;
+    
+    @FXML
+    private RadioButton rbTask2_female;
+    
+    @FXML
+    private TextField periodTask2_1;
+    
+    @FXML
+    private TextField periodTask2_2;
+    
+    @FXML
+    private TextArea textAreaConsole; 
 
     /**
      *  Task Zero
@@ -154,6 +176,90 @@ public class Controller {
     	textAreaConsole.setText(oReport);
     }
     
+    /**
+     *  Task Two
+     *  To be triggered by the REPORT button on the Task Zero Tab
+     *  
+     */
+    @FXML
+    void doTask2() {
+    	String oReport = "";
+    	int numCount = 0;
+    	Boolean invalid = false;
+    	String rbValue[] = {"M"};
+    	
+    	//retrieve text field
+    	String name = textfieldTask2.getText();
+    	
+    	//handle null input 
+    	if(textfieldTask2.getText().trim().equals("") || textfieldTask2.getText().trim().isEmpty()) {
+    		oReport = "PLEASE TYPE SOME NAME";
+    		invalid = true;
+    	}
+    	
+    	//retrieve radio button value
+    	rbTask2_male.setToggleGroup(T11);
+    	rbTask2_male.setUserData("M");
+    	rbTask2_female.setToggleGroup(T11);
+    	rbTask2_female.setUserData("F");
+    	
+    	RadioButton selectedRadioButton = (RadioButton) T11.getSelectedToggle();
+    	rbValue[0] = selectedRadioButton.getText();
+    	
+    	//update rbValue to M and F
+    	if(rbValue[0].equals("Male")) rbValue[0] = "M";
+    	else rbValue[0] = "F";
+    	
+    	System.out.println(rbValue[0] + " selected");
+    	
+    	//update variable gender for oReport
+    	String gender = "";
+    	if(rbValue[0].equals("M")) gender = "male";
+    	else gender = "female";
+    	
+    	//retrieve period fields
+    	int period1 = Integer.parseInt(periodTask2_2.getText());
+    	int period2 = Integer.parseInt(periodTask2_1.getText());
+    	
+    	//handle invalid input period
+    	if((period1 > period2 || period1 < 1880 || period2 > 2019) && !invalid) {
+    		oReport = "INVALID INPUT";	
+    		invalid = true;
+    	}
+    	
+    	//getCount
+    	numCount = AnalyzeNames.getNameCount(name, rbValue[0], period2);
+    	if(numCount == 0 && !invalid) {
+    		oReport = String.format("The name %s (%s) has not been ranked in the year %d", name, rbValue[0], period2);
+    		invalid = true;
+    	}
+    	
+    	//get totalBirth for specified
+    	int totalBirth = AnalyzeNames.getTotalBirths(period2, rbValue[0]);
+    	if(totalBirth == 0 && !invalid) {
+    		oReport = String.format("There was no %s born in %d!", gender, period2);
+    	}
+    	
+
+    	//get name's popular_year and its count in that year and pop_year's total gender birth
+    	int popular_year = AnalyzeNames.mostPopularYear(period1, period2, name, rbValue[0]);
+    	int popularYearNamesBirth = AnalyzeNames.getNameCount(name, rbValue[0], popular_year);
+    	int popularYearTotalBirth = AnalyzeNames.getTotalBirths(popular_year, rbValue[0]);
+    	
+    	
+    	//valid oReport
+    	if(!invalid) {
+    		oReport = String.format("In the year %d the number of birth with name %s is %d, ", period2, name, numCount);
+    		oReport += "which represents " + String.format("%.2f", (double)(numCount * 100)/totalBirth) 
+    				+ " percent of total " + gender + " births in " + period2 +". ";
+    		oReport += String.format("The year when the name %s was most popular is %d. ", name, popular_year);
+    		oReport += String.format("In that year, the number of births is %d, "
+    				+ "which represents a %s percent of the total %s birth in %d"
+    				 ,popularYearNamesBirth, String.format("%.2f", (double)(popularYearNamesBirth * 100)/popularYearTotalBirth), gender, popular_year);
+    	}
+    	
+    	textAreaConsole.setText(oReport);
+    }
 
 }
 
