@@ -297,6 +297,5 @@ public class Controller {
     	}
     	textAreaConsole.setText(oReport);
     }
-
 }
 
