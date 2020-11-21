@@ -2,6 +2,7 @@ package comp3111.popnames;
 
 import org.apache.commons.csv.*;
 import edu.duke.*;
+import java.util.*;
 
 public class AnalyzeNames {
 
@@ -93,5 +94,72 @@ public class AnalyzeNames {
 	     else
 	     	return "information on the name at the specified rank is not available";
 	 }
+	 
+	   // Function to calculate the most frequent word in the array.
+	 	public static String FrequentWordname(String array[]) 
+	 	{ 
+	 		// Insert all unique strings and update count if a string is not unique.
+	 		Map<String,Integer> hshmap = new HashMap<String, Integer>(); 
+	 		for (String str : array) 
+	 		{ 
+	 			if (hshmap.keySet().contains(str)) // if already exists then update count. 
+	 				hshmap.put(str, hshmap.get(str) + 1); 
+	 			else
+	 				hshmap.put(str, 1); // else insert it in the map.
+	 		} 
+	     	// Traverse the map for the maximum value.
+	 		String maxStr = ""; 
+	     	int maxVal = 0; 
+	 		for (Map.Entry<String,Integer> entry : hshmap.entrySet()) 
+	 		{ 
+	 			String key = entry.getKey(); 
+	 			Integer count = entry.getValue(); 
+	 			if (count > maxVal) 
+	 			{ 
+	 				maxVal = count; 
+	 				maxStr = key; 
+	 			} 
+	       		// Condition for the tie.
+	 			else if (count == maxVal){ 
+	 				if (key.length() < maxStr.length())
+	 					maxStr = key; 
+	 			}
+	 		} 
+	 		return maxStr;
+	 		
+	 	}
+	 	public static int FrequentWordnum(String array[]) 
+	 	{ 
+	 		// Insert all unique strings and update count if a string is not unique.
+	 		Map<String,Integer> hshmap = new HashMap<String, Integer>(); 
+	 		for (String str : array) 
+	 		{ 
+	 			if (hshmap.keySet().contains(str)) // if already exists then update count. 
+	 				hshmap.put(str, hshmap.get(str) + 1); 
+	 			else
+	 				hshmap.put(str, 1); // else insert it in the map.
+	 		} 
+	     	// Traverse the map for the maximum value.
+	 		String maxStr = ""; 
+	     	int maxVal = 0; 
+	 		for (Map.Entry<String,Integer> entry : hshmap.entrySet()) 
+	 		{ 
+	 			String key = entry.getKey(); 
+	 			Integer count = entry.getValue(); 
+	 			if (count > maxVal) 
+	 			{ 
+	 				maxVal = count; 
+	 				maxStr = key; 
+	 			} 
+	       		// Condition for the tie.
+	 			else if (count == maxVal){ 
+	 				if (key.length() < maxStr.length())
+	 					maxStr = key; 
+	 			}
+	 		} 
+	 		return maxVal;
+	 		
+	 	}
+	     
  
 }
