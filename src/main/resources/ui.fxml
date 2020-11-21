@@ -11,6 +11,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import comp3111.popnames.NumberTextField?>
 
 <VBox prefHeight="679.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
   <children>
@@ -101,22 +102,22 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="719.0">
                                  <children>
                                     <TextArea layoutX="112.0" layoutY="26.0" prefHeight="61.0" prefWidth="355.0" text="Generate a brief report in response to the queries on identifying the names that have shown the largest rise/fall in popularity over a given period.&#10;" wrapText="true" />
-                                    <RadioButton layoutX="290.0" layoutY="104.0" mnemonicParsing="false" text="Female">
+                                    <RadioButton fx:id="task3female" layoutX="290.0" layoutY="104.0" mnemonicParsing="false" text="Female">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="T111" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton layoutX="225.0" layoutY="104.0" mnemonicParsing="false" selected="true" text="Male">
+                                    <RadioButton fx:id="task3male" layoutX="225.0" layoutY="104.0" mnemonicParsing="false" selected="true" text="Male">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="T111" />
                                        </toggleGroup>
                                     </RadioButton>
                                     <Label layoutX="112.0" layoutY="104.0" text="Gender of Interest: " />
                                     <Label layoutX="112.0" layoutY="138.0" text="Period (1880 - 2019): " />
-                                    <TextField layoutX="292.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                                    <TextField layoutX="226.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                                    <NumberTextField fx:id="task3toYear" layoutX="292.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
+                                    <NumberTextField fx:id="task3fromYear" layoutX="226.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
                                     <Label layoutX="274.0" layoutY="136.0" text="to" />
-                                    <Button layoutX="112.0" layoutY="175.0" mnemonicParsing="false" text="REPORT (yet to be implemented)" />
+                                    <Button layoutX="112.0" layoutY="175.0" mnemonicParsing="false" text="REPORT" onAction="#doTask3" />
                                  </children>
                               </AnchorPane>
                            </children>
