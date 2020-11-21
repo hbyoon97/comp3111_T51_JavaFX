@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.csv.*;
 import edu.duke.*;
+import java.util.*;
 
 public class AnalyzeNames {
 
@@ -137,27 +138,85 @@ public class AnalyzeNames {
 
 		return ret;
 	}
-	
+
+
 	public static <K, V extends Comparable<V>> K maxUsingIteration(Map<K, V> map) {
-	    Map.Entry<K, V> maxEntry = null;
-	    for (Map.Entry<K, V> entry : map.entrySet()) {
-	        if (maxEntry == null || entry.getValue()
-	            .compareTo(maxEntry.getValue()) > 0) {
-	            maxEntry = entry;
-	        }
-	    }
-	    return maxEntry.getKey();
+		Map.Entry<K, V> maxEntry = null;
+		for (Map.Entry<K, V> entry : map.entrySet()) {
+			if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
+				maxEntry = entry;
+			}
+		}
+		return maxEntry.getKey();
 	}
-	
+
 	public static <K, V extends Comparable<V>> K minUsingIteration(Map<K, V> map) {
-	    Map.Entry<K, V> minEntry = null;
-	    for (Map.Entry<K, V> entry : map.entrySet()) {
-	        if (minEntry == null || entry.getValue()
-	            .compareTo(minEntry.getValue()) < 0) {
-	        	minEntry = entry;
-	        }
-	    }
-	    return minEntry.getKey();
+		Map.Entry<K, V> minEntry = null;
+		for (Map.Entry<K, V> entry : map.entrySet()) {
+			if (minEntry == null || entry.getValue().compareTo(minEntry.getValue()) < 0) {
+				minEntry = entry;
+			}
+		}
+		return minEntry.getKey();
+	}
+
+	// Function to calculate the most frequent word in the array.
+	public static String FrequentWordname(String array[]) {
+		// Insert all unique strings and update count if a string is not unique.
+		Map<String, Integer> hshmap = new HashMap<String, Integer>();
+		for (String str : array) {
+			if (hshmap.keySet().contains(str)) // if already exists then update count.
+				hshmap.put(str, hshmap.get(str) + 1);
+			else
+				hshmap.put(str, 1); // else insert it in the map.
+		}
+		// Traverse the map for the maximum value.
+		String maxStr = "";
+		int maxVal = 0;
+		for (Map.Entry<String, Integer> entry : hshmap.entrySet()) {
+			String key = entry.getKey();
+			Integer count = entry.getValue();
+			if (count > maxVal) {
+				maxVal = count;
+				maxStr = key;
+			}
+			// Condition for the tie.
+			else if (count == maxVal) {
+				if (key.length() < maxStr.length())
+					maxStr = key;
+			}
+		}
+		return maxStr;
+
+	}
+
+	public static int FrequentWordnum(String array[]) {
+		// Insert all unique strings and update count if a string is not unique.
+		Map<String, Integer> hshmap = new HashMap<String, Integer>();
+		for (String str : array) {
+			if (hshmap.keySet().contains(str)) // if already exists then update count.
+				hshmap.put(str, hshmap.get(str) + 1);
+			else
+				hshmap.put(str, 1); // else insert it in the map.
+		}
+		// Traverse the map for the maximum value.
+		String maxStr = "";
+		int maxVal = 0;
+		for (Map.Entry<String, Integer> entry : hshmap.entrySet()) {
+			String key = entry.getKey();
+			Integer count = entry.getValue();
+			if (count > maxVal) {
+				maxVal = count;
+				maxStr = key;
+			}
+			// Condition for the tie.
+			else if (count == maxVal) {
+				if (key.length() < maxStr.length())
+					maxStr = key;
+			}
+		}
+		return maxVal;
+
 	}
 
 

@@ -107,6 +107,24 @@ public class Controller {
 	private NumberTextField task3toYear;
 
 	@FXML
+	private Button buttonReport;
+
+	@FXML
+	private TextField textfieldtopN;
+
+	@FXML
+	private TextField textfieldy1;
+
+	@FXML
+	private TextField textfieldy2;
+
+	@FXML
+	private RadioButton male;
+
+	@FXML
+	private RadioButton female;
+
+	@FXML
 	private void initialize() {
 		T111 = new ToggleGroup();
 		task3female.setToggleGroup(T111);
@@ -123,6 +141,7 @@ public class Controller {
 		String oReport = AnalyzeNames.getSummary(year);
 		textAreaConsole.setText(oReport);
 	}
+
 
 	/**
 	 * Task Zero To be triggered by the "Rank (female)" button on the Task Zero Tab
@@ -337,5 +356,93 @@ public class Controller {
 
 		alert.showAndWait();
 	}
+
+	/**
+	 * Task One
+	 * 
+	 */
+
+	@FXML
+	void doReport() {
+
+		String oReport = "";
+		int n = Integer.parseInt(textfieldtopN.getText());
+		int y1 = Integer.parseInt(textfieldy1.getText());
+		int y2 = Integer.parseInt(textfieldy2.getText());
+		String[] arr = new String[y2 - y1 + 1];
+		textAreaConsole.setStyle("-fx-font-family: monospace");
+
+		// invalid input
+		if (n < 1) {
+			oReport += "Please input a number that is greater than or equal to 1 for the value N\n";
+		}
+		if (y1 < 1880 || y2 > 2019) {
+			oReport += "The period of interest must be between 1880 and 2019\n";
+		}
+
+		// valid input
+		if (male.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019) {
+
+			for (int i = 0; i <= y2 - y1; i++)
+				arr[i] = AnalyzeNames.getName(i + y1, 1, "M");
+			String topname = AnalyzeNames.FrequentWordname(arr);
+			int topnum = AnalyzeNames.FrequentWordnum(arr);
+
+			oReport = String.format("Year\t");
+			for (int k = 1; k <= n; k++)
+				oReport += String.format("Top%d\t\t", k);
+			oReport += String.format("\n");
+
+			for (int i = y1; i <= y2; i++) {
+				oReport += String.format("%d\t", i);
+				for (int j = 1; j <= n; j++) {
+					String name = AnalyzeNames.getName(i, j, "M");
+					if (name.length() > 7)
+						oReport += String.format("%s\t", name);
+					else
+						oReport += String.format("%s\t\t", name);
+				}
+				oReport += String.format("\n");
+			}
+
+			oReport += String.format(
+					"\nOver the period %d to %d, %s for Male has hold the top spot \nmost often for a total of %d times.",
+					y1, y2, topname, topnum);
+
+		}
+
+		if (female.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019) {
+
+			for (int i = 0; i <= y2 - y1; i++)
+				arr[i] = AnalyzeNames.getName(i + y1, 1, "F");
+			String topname = AnalyzeNames.FrequentWordname(arr);
+			int topnum = AnalyzeNames.FrequentWordnum(arr);
+
+			oReport = String.format("Year\t");
+			for (int k = 1; k <= n; k++)
+				oReport += String.format("Top%d\t\t", k);
+			oReport += String.format("\n");
+
+			for (int i = y1; i <= y2; i++) {
+				oReport += String.format("%d\t", i);
+				for (int j = 1; j <= n; j++) {
+					String name = AnalyzeNames.getName(i, j, "F");
+					if (name.length() > 7)
+						oReport += String.format("%s\t", name);
+					else
+						oReport += String.format("%s\t\t", name);
+				}
+				oReport += String.format("\n");
+			}
+
+			oReport += String.format(
+					"\nOver the period %d to %d, %s for Female has hold the top spot \nmost often for a total of %d times.",
+					y1, y2, topname, topnum);
+
+		}
+		textAreaConsole.setText(oReport);
+
+	}
+
 
 }
