@@ -121,7 +121,7 @@ public class AnalyzeNames {
 		 double maxPercent = 0.0;
 		 for(int i = period1; i<=period2; i++) {
 			 int iRank = getRank(i, name, gender);
-			 if(iRank < maxRank) {
+			 if(iRank <= maxRank) {
 				 thisPercent = (double) getNameCount(name, gender, i) * 100 / getTotalBirths(i, gender);
 				 if(thisPercent > maxPercent) {
 					 maxPercent = thisPercent;
@@ -129,7 +129,6 @@ public class AnalyzeNames {
 					 popular_year = i;
 				 }
 			 }
-			 System.out.println(i+ " " + maxRank);
 		 }
 		 return popular_year;
 	 }

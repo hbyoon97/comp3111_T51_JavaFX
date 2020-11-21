@@ -3,6 +3,11 @@
  */
 package comp3111.popnames;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -193,7 +198,7 @@ public class Controller {
     	
     	//handle null input 
     	if(textfieldTask2.getText().trim().equals("") || textfieldTask2.getText().trim().isEmpty()) {
-    		oReport = "PLEASE TYPE SOME NAME";
+    		oReport = "Name field cannot be blank";
     		invalid = true;
     	}
     	
@@ -210,8 +215,6 @@ public class Controller {
     	if(rbValue[0].equals("Male")) rbValue[0] = "M";
     	else rbValue[0] = "F";
     	
-    	System.out.println(rbValue[0] + " selected");
-    	
     	//update variable gender for oReport
     	String gender = "";
     	if(rbValue[0].equals("M")) gender = "male";
@@ -223,39 +226,75 @@ public class Controller {
     	
     	//handle invalid input period
     	if((period1 > period2 || period1 < 1880 || period2 > 2019) && !invalid) {
-    		oReport = "INVALID INPUT";	
+    		oReport = "Please input valid period (1880 - 2019)";	
     		invalid = true;
     	}
     	
     	//getCount
-    	numCount = AnalyzeNames.getNameCount(name, rbValue[0], period2);
-    	
+    	if(!invalid) numCount = AnalyzeNames.getNameCount(name, rbValue[0], period2);
+    
     	//get totalBirth for specified
-    	int totalBirth = AnalyzeNames.getTotalBirths(period2, rbValue[0]);
+    	int totalBirth = 0;
+    	if(!invalid) totalBirth = AnalyzeNames.getTotalBirths(period2, rbValue[0]);
     	if(totalBirth == 0 && !invalid) {
     		oReport = String.format("There was no %s born in %d!", gender, period2);
     	}
     	
+    	
+    	int arrayIndexFix = 1;
+    	if(period2-period1+2 > 1) arrayIndexFix = period2-period1+2;
+    	String table[][] = new String[arrayIndexFix][4];
+    	if(!invalid) {
+        	table[0][0] = " Year";
+        	table[0][1] = " Rank";
+        	table[0][2] = " Count";
+        	table[0][3] = " Percentage";
+        	for(int row = 1; row<period2-period1+2; row++) {
+        			table[row][0] = Integer.toString(period1-1+row);
+        			table[row][1] = Integer.toString(AnalyzeNames.getRank(period1-1+row, name, rbValue[0]));
+        			table[row][2] = Integer.toString(AnalyzeNames.getNameCount(name, rbValue[0], period1-1+row));
+        			table[row][3] = String.format("%2f", (double) AnalyzeNames.getNameCount(name, rbValue[0], period1-1+row) * 100 / 
+        					AnalyzeNames.getTotalBirths(period1-1+row, rbValue[0]));
+        	}
+    	}
+    	
+    	//print table
+    	if(!invalid) {
+    		oReport += String.format("Year\t\t\t\t\t");
+        	oReport += String.format("Rank\t\t\t\t\t");
+        	oReport += String.format("Count\t\t\t\t\t");
+        	oReport += String.format("Percentage\t\t\t\t\t");
+        	oReport += String.format("\n");
 
- 
+        	for(int row = 1; row<period2-period1+2; row++) {
+        		for(int col = 0; col<4; col++) {
+    				String tabSpace = "\t\t\t\t\t";
+    				if(col == 2 && table[row][col].length() != 5) tabSpace+="\t";
+    				oReport += table[row][col]+tabSpace;
+        		}
+        		oReport += String.format("\n");
+        	}	
+        	oReport += String.format("\n");
+    	}
     	
     	//valid oReport
     	if(!invalid) {
     		int popular_year = AnalyzeNames.mostPopularYear(period1, period2, name, rbValue[0]);
         	int popularYearNamesBirth = AnalyzeNames.getNameCount(name, rbValue[0], popular_year);
         	int popularYearTotalBirth = AnalyzeNames.getTotalBirths(popular_year, rbValue[0]);
-    		if(numCount == 0) oReport = String.format("The name %s (%s) has not been ranked in the year %d. ", name, rbValue[0], period2);
+    		if(AnalyzeNames.getRank(period2, name, rbValue[0]) == -1) oReport += String.format("The name %s (%s) has not been ranked in the year %d. ", name, rbValue[0], period2);
     		else {
-    			oReport = String.format("In the year %d the number of birth with name %s is %d, ", period2, name, numCount);
-    			oReport += "which represents " + String.format("%.2f", (double)(numCount * 100)/totalBirth) 
+    			oReport += String.format("In the year %d the number of birth with name %s is %d, ", period2, name, numCount);
+    			oReport += "which represents " + String.format("%.5f", (double)(numCount * 100)/totalBirth) 
 				+ " percent of total " + gender + " births in " + period2 +". ";
     		}
-    		oReport += String.format("The year when the name %s was most popular is %d. ", name, popular_year);
-    		oReport += String.format("In that year, the number of births is %d, "
-    				+ "which represents a %s percent of the total %s birth in %d"
-    				 ,popularYearNamesBirth, String.format("%.2f", (double)(popularYearNamesBirth * 100)/popularYearTotalBirth), gender, popular_year);
+    		if(popularYearNamesBirth != 0) {
+    			oReport += String.format("The year when the name %s was most popular is %d. ", name, popular_year);
+        		oReport += String.format("In that year, the number of births is %d, "
+        				+ "which represents a %s percent of the total %s birth in %d"
+        				 ,popularYearNamesBirth, String.format("%.5f", (double)(popularYearNamesBirth * 100)/popularYearTotalBirth), gender, popular_year);
+    		}
     	}
-    	
     	textAreaConsole.setText(oReport);
     }
 
