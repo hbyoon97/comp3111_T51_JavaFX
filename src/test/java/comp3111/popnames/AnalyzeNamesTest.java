@@ -40,4 +40,25 @@ public class AnalyzeNamesTest {
     	assertTrue(name.equals("Desire"));
     }
 
+    @Test 
+    // new added
+    public void testGetNameNotFound() {
+    	AnalyzeNames a = new AnalyzeNames();
+    	String name = a.getName(2019, 27777, "F");
+    	assertTrue(name.equals("information on the name at the specified rank is not available"));
+    }
+    
+    @Test 
+    // new added
+    public void testGetSummary() {
+    	AnalyzeNames a = new AnalyzeNames();
+    	String summary = a.getSummary(2019);
+    	assertEquals(summary, "Summary (Year of 2019):\n" + 
+    			"Total Births = 3,445,321\n" + 
+    			"***Baby Girls = 1,665,373\n" + 
+    			"***Baby Boys = 1,779,948\n" + 
+    			"Total Number of Unique Names = 31,954\n" + 
+    			"***Unique Names (baby girls) = 17,905\n" + 
+    			"***Unique Names (baby boys) = 14,049\n");
+    }
 }
