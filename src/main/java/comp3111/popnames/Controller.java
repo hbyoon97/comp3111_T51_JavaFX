@@ -142,6 +142,7 @@ public class Controller {
 		textAreaConsole.setText(oReport);
 	}
 
+
 	/**
 	 * Task Zero To be triggered by the "Rank (female)" button on the Task Zero Tab
 	 * 
@@ -442,5 +443,6 @@ public class Controller {
 		textAreaConsole.setText(oReport);
 
 	}
+
 
 }

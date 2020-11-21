@@ -139,6 +139,7 @@ public class AnalyzeNames {
 		return ret;
 	}
 
+
 	public static <K, V extends Comparable<V>> K maxUsingIteration(Map<K, V> map) {
 		Map.Entry<K, V> maxEntry = null;
 		for (Map.Entry<K, V> entry : map.entrySet()) {
@@ -217,5 +218,6 @@ public class AnalyzeNames {
 		return maxVal;
 
 	}
+
 
 }
