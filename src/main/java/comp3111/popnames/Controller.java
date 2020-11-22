@@ -541,15 +541,15 @@ public class Controller {
     	
     	//print table
     	if(!invalid) {
-    		oReport += String.format("Year\t\t\t\t\t");
-        	oReport += String.format("Rank\t\t\t\t\t");
-        	oReport += String.format("Count\t\t\t\t\t");
-        	oReport += String.format("Percentage\t\t\t\t\t");
+    		oReport += String.format("Year\t\t\t");
+        	oReport += String.format("Rank\t\t\t");
+        	oReport += String.format("Count\t\t\t");
+        	oReport += String.format("Percentage\t\t\t");
         	oReport += String.format("\n");
 
         	for(int row = 1; row<period2-period1+2; row++) {
         		for(int col = 0; col<4; col++) {
-    				String tabSpace = "\t\t\t\t\t";
+    				String tabSpace = "\t\t\t";
     				if(col == 2 && table[row][col].length() != 5) tabSpace+="\t";
     				oReport += table[row][col]+tabSpace;
         		}
@@ -563,14 +563,14 @@ public class Controller {
     		int popular_year = AnalyzeNames.mostPopularYear(period1, period2, name, rbValue[0]);
         	int popularYearNamesBirth = AnalyzeNames.getNameCount(name, rbValue[0], popular_year);
         	int popularYearTotalBirth = AnalyzeNames.getTotalBirths(popular_year, rbValue[0]);
-    		if(AnalyzeNames.getRank(period2, name, rbValue[0]) == -1) oReport += String.format("The name %s (%s) has not been ranked in the year %d. ", name, rbValue[0], period2);
+    		if(AnalyzeNames.getRank(period2, name, rbValue[0]) == -1) oReport += String.format("The name %s (%s) has not been ranked in the year %d.\n", name, rbValue[0], period2);
     		else {
     			oReport += String.format("In the year %d the number of birth with name %s is %d, ", period2, name, numCount);
     			oReport += "which represents " + String.format("%.5f", (double)(numCount * 100)/totalBirth) 
-				+ " percent of total " + gender + " births in " + period2 +". ";
+				+ " percent of total " + gender + " births in " + period2 +".\n";
     		}
     		if(popularYearNamesBirth != 0) {
-    			oReport += String.format("The year when the name %s was most popular is %d. ", name, popular_year);
+    			oReport += String.format("The year when the name %s was most popular is %d.\n", name, popular_year);
         		oReport += String.format("In that year, the number of births is %d, "
         				+ "which represents a %s percent of the total %s birth in %d"
         				 ,popularYearNamesBirth, String.format("%.5f", (double)(popularYearNamesBirth * 100)/popularYearTotalBirth), gender, popular_year);
