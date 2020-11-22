@@ -143,6 +143,21 @@ public class Controller {
     
     @FXML
     private TextField textfieldTask2;
+    
+    @FXML
+	private TextField textfieldMomName;
+    
+    @FXML
+   	private TextField textfieldDadName;
+    
+    @FXML
+   	private TextField textfieldDadYOB;
+    
+    @FXML
+   	private TextField textfieldMomYOB;
+
+	@FXML
+	private TextField textfieldVinYear;
 
 	@FXML
 	private void initialize() {
@@ -383,14 +398,39 @@ public class Controller {
 	 */
 
 	@FXML
-	void doReport() {
+	void doTask1() {
 
 		String oReport = "";
-		int n = Integer.parseInt(textfieldtopN.getText());
-		int y1 = Integer.parseInt(textfieldy1.getText());
-		int y2 = Integer.parseInt(textfieldy2.getText());
+		int n;
+		int y1;
+		int y2;
 		
 		textAreaConsole.setStyle("-fx-font-family: monospace");
+		
+		//null input
+		if(textfieldtopN.getText().trim().equals("") || textfieldtopN.getText().trim().isEmpty()) {
+			oReport = "N cannot be empty";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			n = Integer.parseInt(textfieldtopN.getText());
+		
+		if(textfieldy1.getText().trim().equals("") || textfieldy1.getText().trim().isEmpty()) {
+			oReport = "year cannot be empty";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			y1 = Integer.parseInt(textfieldy1.getText());
+		
+		if(textfieldy2.getText().trim().equals("") || textfieldy2.getText().trim().isEmpty()) {
+			oReport = "year cannot be empty";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			y2 = Integer.parseInt(textfieldy2.getText());
 
 		// invalid input
 		if (n < 1) {
@@ -583,10 +623,82 @@ public class Controller {
     	}
     	textAreaConsole.setText(oReport);
     }
+    
+    /**
+	 * Task 4
+	 * 
+	 * 
+	 */
+	
+    @FXML
+	void doTask4() {
+		String oReport = "";
+		String dadName = textfieldDadName.getText();
+		int dadYOB;
+		int dadRank;
+		String momName = textfieldMomName.getText();
+		int momYOB;
+		int momRank;
+		int vinYear;
+		
+		//empty name input
+		if(textfieldDadName.getText().trim().equals("") || textfieldDadName.getText().trim().isEmpty()
+				||textfieldMomName.getText().trim().equals("") || textfieldMomName.getText().trim().isEmpty()) {
+    		oReport = "Name field cannot be blank";
+    		textAreaConsole.setText(oReport);
+    		return;
+    	}
+		
+		//vintage year
+		if(textfieldVinYear.getText().trim().equals("") || textfieldVinYear.getText().trim().isEmpty())
+			vinYear = 2019;
+		else
+			vinYear = Integer.parseInt(textfieldVinYear.getText());
+		
+		//dadYOB
+		if(textfieldDadYOB.getText().trim().equals("") || textfieldDadYOB.getText().trim().isEmpty()) {
+			oReport = "Year of birth cannot be blank";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			dadYOB = Integer.parseInt(textfieldDadYOB.getText());
+		
+		//momYOB
+		if(textfieldMomYOB.getText().trim().equals("") || textfieldMomYOB.getText().trim().isEmpty()) {
+			oReport = "Year of birth cannot be blank";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			momYOB = Integer.parseInt(textfieldMomYOB.getText());
+		
+		//dadRank	
+		if (AnalyzeNames.getRank(dadYOB, dadName, "M") >= 1)
+			dadRank = AnalyzeNames.getRank(dadYOB, dadName, "M");
+		
+		else 
+			dadRank = 1;
+		
+		//momRank
+		if (AnalyzeNames.getRank(momYOB, momName, "F") >= 1)
+			momRank = AnalyzeNames.getRank(momYOB, momName, "F");
+		else 
+			momRank = 1;
+		
+		//babyName
+		String boyName = AnalyzeNames.getName(vinYear, dadRank, "M");
+		String girlName = AnalyzeNames.getName(vinYear, momRank, "F");
+		
+		oReport = String.format("Recommended name for baby boy: %s\nRecommended name for baby girl: %s\n", boyName, girlName);
+		textAreaConsole.setText(oReport);
+		
+		
+	}
+
 
 }
 	
-
     
    
 
