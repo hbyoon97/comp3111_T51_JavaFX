@@ -477,7 +477,7 @@ public class Controller {
     	int numCount = 0;
     	Boolean invalid = false;
     	String rbValue[] = {"M"};
-    	textAreaConsole.setStyle("-fx-font-family: default");
+    	
     	
     	//retrieve text field
     	String name = textfieldTask2.getText();
