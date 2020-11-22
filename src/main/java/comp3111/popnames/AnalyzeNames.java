@@ -139,6 +139,7 @@ public class AnalyzeNames {
 		return ret;
 	}
 
+
 	public static <K, V extends Comparable<V>> K maxUsingIteration(Map<K, V> map) {
 		Map.Entry<K, V> maxEntry = null;
 		for (Map.Entry<K, V> entry : map.entrySet()) {
@@ -215,7 +216,45 @@ public class AnalyzeNames {
 			}
 		}
 		return maxVal;
-
 	}
-
+	
+	 public static int getNameCount(String name, String gender, int year) {
+		 int count = 0;
+		 for (CSVRecord rec : getFileParser(year)) {
+			 if(rec.get(0).equals(name) && rec.get(1).equals(gender)) {
+				count = Integer.parseInt(rec.get(2)); 
+			 } 
+		 }
+		 return count;
+	 }
+	 
+	 public static int getTotalBirths(int year, String gender) {
+		 int totalBirth = 0;
+		 for (CSVRecord rec : getFileParser(year)) {
+			 if(rec.get(1).equals(gender)) {
+				int numBorn = Integer.parseInt(rec.get(2));
+				totalBirth += numBorn;
+			 }
+		 }
+		 return totalBirth;
+	 }
+	 
+	 public static int mostPopularYear(int period1, int period2, String name, String gender) {
+		 int popular_year = period1;
+		 int maxRank = 10000;
+		 double thisPercent;
+		 double maxPercent = 0.0;
+		 for(int i = period1; i<=period2; i++) {
+			 int iRank = getRank(i, name, gender);
+			 if(iRank <= maxRank) {
+				 thisPercent = (double) getNameCount(name, gender, i) * 100 / getTotalBirths(i, gender);
+				 if(thisPercent > maxPercent) {
+					 maxPercent = thisPercent;
+					 maxRank = iRank;
+					 popular_year = i;
+				 }
+			 }
+		 }
+		 return popular_year;
+	 }
 }
