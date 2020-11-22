@@ -45,7 +45,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="384.0" prefWidth="719.0">
                            <children>
                               <Label layoutX="79.0" layoutY="44.0" />
-                              <TextArea layoutX="96.0" layoutY="24.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the most popular names registered at birth over a given period." wrapText="true" />
+                              <TextArea layoutX="96.0" layoutY="24.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the most popular names registered at birth over a given period." wrapText="true"  />
                               <Label layoutX="96.0" layoutY="100.0" text="Top N (N&gt;=1): " />
                               <TextField fx:id="textfieldtopN" layoutX="178.0" layoutY="96.0" prefHeight="26.0" prefWidth="27.0" text="10" />
                               <Label layoutX="253.0" layoutY="100.0" text="Gender: " />
@@ -59,7 +59,7 @@
                               <TextField fx:id="textfieldy2" layoutX="276.0" layoutY="126.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
                               <TextField fx:id="textfieldy1" layoutX="210.0" layoutY="126.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
                               <Label layoutX="258.0" layoutY="130.0" text="to" />
-                              <Button fx:id="buttonReport" layoutX="96.0" layoutY="169.0" mnemonicParsing="false" onAction="#doReport" text="REPORT"   />
+                              <Button layoutX="96.0" layoutY="169.0" mnemonicParsing="false" onAction="#doTask1" text="REPORT"   />
                            </children>
                         </AnchorPane>
                     </content>
@@ -130,7 +130,21 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="719.0">
                            <children>
-                              <TextArea layoutX="40.0" layoutY="26.0" prefHeight="242.0" prefWidth="638.0" text="Develop and implement an online service using empirical data to help make informed decisions on naming their newborn babies.  Sample Scenario of Application: (i) Parents seeking advices on naming their babies; (ii) A couple seeking advices on naming their pets&#10;&#10;Input&#10;* iDadName, iMomName: Names of the baby’s dad and mom&#10;* iDadYOB, iMomYOB: Years of birth of the baby’s dad and mom&#10;* iVintageYear (optional): A year to be chosen from 1880 to 2019; If not chosen, set the value of iVintageYear to 2019&#10;&#10;Output&#10;* oBoyName: Recommended name for baby boy according to the NK-T4 Algorithm&#10;* oGirlName: Recommended name for baby girl according to the NK-T4 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" wrapText="true" />
+                              <TextArea layoutX="98.0" layoutY="24.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the recommended names for newborn." wrapText="true"  />
+                              <Label layoutX="98.0" layoutY="109.0" prefHeight="18.0" prefWidth="87.0" text="Name (Mom)" />
+                              <Label layoutX="98.0" layoutY="140.0" text="Year of birth" />
+                              <Label layoutX="133.0" layoutY="153.0" text="(Dad)" />
+                              <Label layoutX="98.0" layoutY="171.0" text="Year of birth" />
+                              <Label layoutX="133.0" layoutY="184.0" text="(Mom)" />
+                              <TextField fx:id="textfieldMomName" layoutX="185.0" layoutY="109.0" prefHeight="26.0" prefWidth="150.0" text="Desire" />
+                              <TextField fx:id="textfieldDadYOB" layoutX="185.0" layoutY="140.0" text="2019" />
+                              <TextField fx:id="textfieldMomYOB" layoutX="185.0" layoutY="171.0" text="2019" />
+                              <Label layoutX="98.0" layoutY="78.0" text="Name (Dad)" />
+                              <Label layoutX="98.0" layoutY="202.0" text="Vintage Year" />
+                              <TextField fx:id="textfieldVinYear" layoutX="185.0" layoutY="202.0" text="2019" />
+                              <TextField fx:id="textfieldDadName" layoutX="185.0" layoutY="78.0" prefHeight="26.0" prefWidth="149.0" text="David" />
+                              <Label layoutX="342.0" layoutY="206.0" text="Range: 1880 - 2019" />
+                              <Button layoutX="96.0" layoutY="237.0" mnemonicParsing="false" onAction="#doTask4" text="REPORT"   />
                            </children>
                         </AnchorPane>
                     </content>
@@ -160,7 +174,7 @@
       <Label text="Console" />
       <ScrollPane prefHeight="387.0" prefWidth="719.0">
          <content>
-            <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" wrapText="true" />
+            <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" />
          </content>
       </ScrollPane>
   </children>
