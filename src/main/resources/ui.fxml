@@ -17,7 +17,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="437.0" prefWidth="719.0">
       <children>
-            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="350.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="350.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab fx:id="tabTaskZero" text="Task Zero">
                   <content>
@@ -72,23 +72,25 @@
                                  <children>
                                     <TextArea layoutX="109.0" layoutY="33.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the popularity of a particular name over a given period." wrapText="true" />
                                     <Label layoutX="109.0" layoutY="93.0" text="Name" />
-                                    <TextField layoutX="159.0" layoutY="88.0" prefHeight="26.0" prefWidth="88.0" text="David" />
+                                    <TextField fx:id="textfieldTask2" layoutX="159.0" layoutY="88.0" prefHeight="26.0" prefWidth="88.0" />
                                     <Label layoutX="277.0" layoutY="93.0" text="Gender: " />
-                                    <RadioButton layoutX="332.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Male">
+                                    <RadioButton fx:id="rbTask2_male" layoutX="332.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Male">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="T11" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton layoutX="384.0" layoutY="93.0" mnemonicParsing="false" text="Female">
+                                    <RadioButton fx:id="rbTask2_female" layoutX="384.0" layoutY="93.0" mnemonicParsing="false" text="Female" toggleGroup="$T11">
+                                       <!--
                                        <toggleGroup>
                                           <ToggleGroup fx:id="T11" />
                                        </toggleGroup>
+                                       -->
                                     </RadioButton>
                                     <Label layoutX="109.0" layoutY="129.0" text="Period (1880 - 2019): " />
-                                    <TextField layoutX="289.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                                    <TextField layoutX="223.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                                    <TextField fx:id="periodTask2_1" layoutX="289.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
+                                    <TextField fx:id="periodTask2_2" layoutX="223.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
                                     <Label layoutX="271.0" layoutY="127.0" text="to" />
-                                    <Button layoutX="108.0" layoutY="169.0" mnemonicParsing="false" text="REPORT (yet to be implemented)" />
+                                    <Button layoutX="108.0" layoutY="169.0" mnemonicParsing="false" text="REPORT" onAction="#doTask2" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -158,7 +160,7 @@
       <Label text="Console" />
       <ScrollPane prefHeight="387.0" prefWidth="719.0">
          <content>
-            <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" />
+            <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" wrapText="true" />
          </content>
       </ScrollPane>
   </children>
