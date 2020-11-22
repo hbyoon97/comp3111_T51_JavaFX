@@ -130,6 +130,7 @@ public class Controller {
 		task3female.setToggleGroup(T111);
 		task3male.setToggleGroup(T111);
 	}
+	
 
 	/**
 	 * Task Zero To be triggered by the "Summary" button on the Task Zero Tab
@@ -210,6 +211,7 @@ public class Controller {
 	 * Task Three
 	 * 
 	 */
+	
 	@FXML
 	void doTask3() {
 		int fromYear = task3fromYear.getValue();
@@ -355,6 +357,7 @@ public class Controller {
 
 		alert.showAndWait();
 	}
+	
 
 	/**
 	 * Task One
@@ -368,8 +371,9 @@ public class Controller {
 		int n = Integer.parseInt(textfieldtopN.getText());
 		int y1 = Integer.parseInt(textfieldy1.getText());
 		int y2 = Integer.parseInt(textfieldy2.getText());
-		String[] arr = new String[y2 - y1 + 1];
+		
 		textAreaConsole.setStyle("-fx-font-family: monospace");
+		//textAreaConsole.setStyle("-fx-font-family: default");
 
 		// invalid input
 		if (n < 1) {
@@ -378,10 +382,14 @@ public class Controller {
 		if (y1 < 1880 || y2 > 2019) {
 			oReport += "The period of interest must be between 1880 and 2019\n";
 		}
+		if (y1 > y2) {
+			oReport += "Incorrect period\n";
+		}
+		
 
 		// valid input
-		if (male.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019) {
-
+		if (male.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019 && y1<=y2) {
+			String[] arr = new String[y2 - y1 + 1];
 			for (int i = 0; i <= y2 - y1; i++)
 				arr[i] = AnalyzeNames.getName(i + y1, 1, "M");
 			String topname = AnalyzeNames.FrequentWordname(arr);
@@ -403,15 +411,15 @@ public class Controller {
 				}
 				oReport += String.format("\n");
 			}
-
+			
 			oReport += String.format(
 					"\nOver the period %d to %d, %s for Male has hold the top spot \nmost often for a total of %d times.",
 					y1, y2, topname, topnum);
 
 		}
 
-		if (female.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019) {
-
+		if (female.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019 && y1<=y2) {
+			String[] arr = new String[y2 - y1 + 1];
 			for (int i = 0; i <= y2 - y1; i++)
 				arr[i] = AnalyzeNames.getName(i + y1, 1, "F");
 			String topname = AnalyzeNames.FrequentWordname(arr);
@@ -440,7 +448,7 @@ public class Controller {
 
 		}
 		textAreaConsole.setText(oReport);
-
+		
 	}
 
 }
