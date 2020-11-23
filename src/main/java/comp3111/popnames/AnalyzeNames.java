@@ -246,15 +246,20 @@ public class AnalyzeNames {
 		 double maxPercent = 0.0;
 		 for(int i = period1; i<=period2; i++) {
 			 int iRank = getRank(i, name, gender);
-			 if(iRank <= maxRank) {
-				 thisPercent = (double) getNameCount(name, gender, i) * 100 / getTotalBirths(i, gender);
-				 if(thisPercent > maxPercent) {
-					 maxPercent = thisPercent;
-					 maxRank = iRank;
-					 popular_year = i;
-				 }
+			 thisPercent = (double) getNameCount(name, gender, i) * 100 / getTotalBirths(i, gender);
+			 if(iRank < maxRank && iRank != -1) {
+				 maxPercent = thisPercent;
+				 maxRank = iRank;
+				 popular_year = i;
+				 continue;
+			 }
+			 if(iRank <= maxRank && thisPercent > maxPercent && iRank != -1) {
+				 maxPercent = thisPercent;
+				 maxRank = iRank;
+				 popular_year = i;
 			 }
 		 }
+		 System.out.println(popular_year);
 		 return popular_year;
 	 }
 }
