@@ -114,13 +114,13 @@ public class Controller {
 	private Button buttonReport;
 
 	@FXML
-	private TextField textfieldtopN;
+	private NumberTextField textfieldtopN;
 
 	@FXML
-	private TextField textfieldy1;
+	private NumberTextField textfieldy1;
 
 	@FXML
-	private TextField textfieldy2;
+	private NumberTextField textfieldy2;
 
 	@FXML
 	private RadioButton male;
@@ -183,13 +183,13 @@ public class Controller {
    	private TextField textfieldDadName;
     
     @FXML
-   	private TextField textfieldDadYOB;
+   	private NumberTextField textfieldDadYOB;
     
     @FXML
-   	private TextField textfieldMomYOB;
+   	private NumberTextField textfieldMomYOB;
 
 	  @FXML
-	  private TextField textfieldVinYear;
+	  private NumberTextField textfieldVinYear;
 
 	@FXML
 	private void initialize() {
