@@ -173,8 +173,22 @@ public class Controller {
     @FXML
     private ToggleGroup TG5_3;
     
-    @FXML
     private TextField textfieldTask2;
+    
+    @FXML
+	private TextField textfieldMomName;
+    
+    @FXML
+   	private TextField textfieldDadName;
+    
+    @FXML
+   	private TextField textfieldDadYOB;
+    
+    @FXML
+   	private TextField textfieldMomYOB;
+
+	@FXML
+	private TextField textfieldVinYear;
 
 	@FXML
 	private void initialize() {
@@ -415,14 +429,39 @@ public class Controller {
 	 */
 
 	@FXML
-	void doReport() {
+	void doTask1() {
 
 		String oReport = "";
-		int n = Integer.parseInt(textfieldtopN.getText());
-		int y1 = Integer.parseInt(textfieldy1.getText());
-		int y2 = Integer.parseInt(textfieldy2.getText());
-		String[] arr = new String[y2 - y1 + 1];
+		int n;
+		int y1;
+		int y2;
+		
 		textAreaConsole.setStyle("-fx-font-family: monospace");
+		
+		//null input
+		if(textfieldtopN.getText().trim().equals("") || textfieldtopN.getText().trim().isEmpty()) {
+			oReport = "N cannot be empty";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			n = Integer.parseInt(textfieldtopN.getText());
+		
+		if(textfieldy1.getText().trim().equals("") || textfieldy1.getText().trim().isEmpty()) {
+			oReport = "year cannot be empty";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			y1 = Integer.parseInt(textfieldy1.getText());
+		
+		if(textfieldy2.getText().trim().equals("") || textfieldy2.getText().trim().isEmpty()) {
+			oReport = "year cannot be empty";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			y2 = Integer.parseInt(textfieldy2.getText());
 
 		// invalid input
 		if (n < 1) {
@@ -431,10 +470,13 @@ public class Controller {
 		if (y1 < 1880 || y2 > 2019) {
 			oReport += "The period of interest must be between 1880 and 2019\n";
 		}
+		if (y1 > y2) {
+			oReport += "Incorrect period\n";
+		}
 
 		// valid input
-		if (male.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019) {
-
+		if (male.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019 && y1 <= y2) {
+			String[] arr = new String[y2 - y1 + 1];
 			for (int i = 0; i <= y2 - y1; i++)
 				arr[i] = AnalyzeNames.getName(i + y1, 1, "M");
 			String topname = AnalyzeNames.FrequentWordname(arr);
@@ -463,8 +505,8 @@ public class Controller {
 
 		}
 
-		if (female.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019) {
-
+		if (female.isSelected() && n >= 1 && y1 >= 1880 && y2 <= 2019 && y1 <= y2) {
+			String[] arr = new String[y2 - y1 + 1];
 			for (int i = 0; i <= y2 - y1; i++)
 				arr[i] = AnalyzeNames.getName(i + y1, 1, "F");
 			String topname = AnalyzeNames.FrequentWordname(arr);
@@ -506,7 +548,7 @@ public class Controller {
     	int numCount = 0;
     	Boolean invalid = false;
     	String rbValue[] = {"M"};
-    	textAreaConsole.setStyle("-fx-font-family: default");
+    	
     	
     	//retrieve text field
     	String name = textfieldTask2.getText();
@@ -567,7 +609,6 @@ public class Controller {
         	for(int row = 1; row<period2-period1+2; row++) {
         			table[row][0] = Integer.toString(period1-1+row);
         			table[row][1] = Integer.toString(AnalyzeNames.getRank(period1-1+row, name, rbValue[0]));
-        			if(table[row][1].equals("-1")) table[row][1] = "not ranked";
         			table[row][2] = Integer.toString(AnalyzeNames.getNameCount(name, rbValue[0], period1-1+row));
         			table[row][3] = String.format("%2f", (double) AnalyzeNames.getNameCount(name, rbValue[0], period1-1+row) * 100 / 
         					AnalyzeNames.getTotalBirths(period1-1+row, rbValue[0]));
@@ -576,15 +617,18 @@ public class Controller {
     	
     	//print table
     	if(!invalid) {
-    		oReport += String.format("%10s", "Year");
-        	oReport += String.format("%33s", "Rank");
-        	oReport += String.format("%10s", "Count");
-        	oReport += String.format("%32s", "Percentage");
+    		oReport += String.format("Year\t\t\t\t\t");
+        	oReport += String.format("Rank\t\t\t\t\t");
+        	oReport += String.format("Count\t\t\t\t\t");
+        	oReport += String.format("Percentage\t\t\t\t\t");
         	oReport += String.format("\n");
 
         	for(int row = 1; row<period2-period1+2; row++) {
-        		oReport += String.format("%10s%33s%10s%32s", table[row][0], table[row][1],table[row][2],table[row][3]);
-        		
+        		for(int col = 0; col<4; col++) {
+    				String tabSpace = "\t\t\t\t\t";
+    				if(col == 2 && table[row][col].length() != 5) tabSpace+="\t";
+    				oReport += table[row][col]+tabSpace;
+        		}
         		oReport += String.format("\n");
         	}	
         	oReport += String.format("\n");
@@ -595,14 +639,14 @@ public class Controller {
     		int popular_year = AnalyzeNames.mostPopularYear(period1, period2, name, rbValue[0]);
         	int popularYearNamesBirth = AnalyzeNames.getNameCount(name, rbValue[0], popular_year);
         	int popularYearTotalBirth = AnalyzeNames.getTotalBirths(popular_year, rbValue[0]);
-    		if(AnalyzeNames.getRank(period2, name, rbValue[0]) == -1) oReport += String.format("The name %s (%s) has not been ranked in the year %d.\n", name, rbValue[0], period2);
+    		if(AnalyzeNames.getRank(period2, name, rbValue[0]) == -1) oReport += String.format("The name %s (%s) has not been ranked in the year %d. ", name, rbValue[0], period2);
     		else {
     			oReport += String.format("In the year %d the number of birth with name %s is %d, ", period2, name, numCount);
     			oReport += "which represents " + String.format("%.5f", (double)(numCount * 100)/totalBirth) 
-				+ " percent of total " + gender + " births in " + period2 +".\n";
+				+ " percent of total " + gender + " births in " + period2 +". ";
     		}
     		if(popularYearNamesBirth != 0) {
-    			oReport += String.format("The year when the name %s was most popular is %d.\n", name, popular_year);
+    			oReport += String.format("The year when the name %s was most popular is %d. ", name, popular_year);
         		oReport += String.format("In that year, the number of births is %d, "
         				+ "which represents a %s percent of the total %s birth in %d"
         				 ,popularYearNamesBirth, String.format("%.5f", (double)(popularYearNamesBirth * 100)/popularYearTotalBirth), gender, popular_year);
@@ -611,103 +655,90 @@ public class Controller {
     	textAreaConsole.setText(oReport);
     }
     
+    /**
+	 * Task 4
+	 * 
+	 * 
+	 */
+	
     @FXML
-    void doTask5() {
-    	Boolean valid = true;
-    	String oReport = "";
-    	String rbValue[] = {"M", "M", "younger"};
-    	String name = "";
-    	String YOB = "";
-    	
-    	while(valid) {
-    		//retrieve text fields
-    		name = task5Name.getText();
-    		if(name.trim().equals("") || name.trim().isEmpty()) {
-    			valid = false;
-    			oReport = "Name field cannot be blank";
-    			break;
-    		}
-    		
-    		YOB = task5YOB.getText();
-    		if(YOB.trim().equals("") || YOB.trim().isEmpty()) {
-    			valid = false;
-    			oReport = "Year of Birth field cannot be blank";
-    			break;
-    		} else if(Integer.parseInt(YOB) < 1880 || Integer.parseInt(YOB) > 2019) {
-    			valid = false;
-    			oReport = "Please input valid year of birth (1880 - 2019)";
-    		}
-    		     	
-        	//retrieve radio button value
-        	rbTask5_male.setToggleGroup(TG5_1);
-        	rbTask5_mate_male.setToggleGroup(TG5_2);
-        	rbTask5_younger.setToggleGroup(TG5_3);
-        	rbTask5_male.setUserData("M");
-        	rbTask5_mate_male.setUserData("M");
-        	rbTask5_younger.setUserData("younger");
-        	
-        	rbTask5_female.setToggleGroup(TG5_1);
-        	rbTask5_mate_female.setToggleGroup(TG5_2);
-        	rbTask5_older.setToggleGroup(TG5_3);
-        	rbTask5_female.setUserData("F");
-        	rbTask5_mate_female.setUserData("F");
-        	rbTask5_older.setUserData("older");
-        	
-        	RadioButton selectedRadioButtonTG5_1 = (RadioButton) TG5_1.getSelectedToggle();
-        	rbValue[0] = selectedRadioButtonTG5_1.getText();
-        	
-        	RadioButton selectedRadioButtonTG5_2 = (RadioButton) TG5_2.getSelectedToggle();
-        	rbValue[1] = selectedRadioButtonTG5_2.getText();
-        	
-        	RadioButton selectedRadioButtonTG5_3 = (RadioButton) TG5_3.getSelectedToggle();
-        	rbValue[2] = selectedRadioButtonTG5_3.getText();
-        	
-        	//update rbValue[] 
-        	if(rbValue[0].equals("Male")) rbValue[0] = "M";
-        	else rbValue[0] = "F";
-        	
-        	if(rbValue[1].equals("Male")) rbValue[1] = "M";
-        	else rbValue[1] = "F";
-        	
-        	if(rbValue[2].equals("Younger")) rbValue[2] = "younger";
-        	else rbValue[2] = "older";
-        	
-        	if((YOB.equals("1880")) && rbValue[2].equals("older")) {
-        		valid = false;
-        		oReport = "There exists no data for anyone born in year before 1880";
-        		break;
-        	} else if((YOB.equals("2019")) && rbValue[2].equals("younger")) {
-        		valid = false;
-        		oReport = "There exists no data for anyone born in year after 2019";
-        		break;
-        	}
-        	
-        	oReport = "Name = " + name + " YOB = " + YOB + "Gender: " + rbValue[0] + " Mate Gender = " + rbValue[1] + " Preference: " +rbValue[2];
-        	break;
+	void doTask4() {
+		String oReport = "";
+		String dadName = textfieldDadName.getText();
+		int dadYOB;
+		int dadRank;
+		String momName = textfieldMomName.getText();
+		int momYOB;
+		int momRank;
+		int vinYear;
+		
+		//empty name input
+		if(textfieldDadName.getText().trim().equals("") || textfieldDadName.getText().trim().isEmpty()
+				||textfieldMomName.getText().trim().equals("") || textfieldMomName.getText().trim().isEmpty()) {
+    		oReport = "Name field cannot be blank";
+    		textAreaConsole.setText(oReport);
+    		return;
     	}
-    	
-    	if(valid) {
-    		//NTK algorithm
-    		int oRank = AnalyzeNames.getRank(Integer.parseInt(YOB), name, rbValue[0]);
-    		if(oRank == -1) oRank = 1;
-    		
-    		int oYOB = 0;
-    		if(rbValue[2] == "younger") oYOB = Integer.parseInt(YOB) + 1;
-    		else oYOB = Integer.parseInt(YOB) - 1;
-    		
-    		String oName = AnalyzeNames.getName(oYOB, oRank, rbValue[1]);
-    		if(oName == "information on the name at the specified rank is not available") {
-    			oName = AnalyzeNames.getName(oYOB, 1, rbValue[2]);
-    		}
-    
-    		oReport = "According to the NK-T5 Algorithm of Universal Compatibility, the recommended name of the soulmate is " + oName;
-    	}
-    	
-    	textAreaConsole.setText(oReport);
-    }
+		
+		//vintage year
+		if(textfieldVinYear.getText().trim().equals("") || textfieldVinYear.getText().trim().isEmpty())
+			vinYear = 2019;
+		
+		else if(Integer.parseInt(textfieldVinYear.getText())<1880||Integer.parseInt(textfieldVinYear.getText())>2019) {
+			oReport = "Vintage year must be between 1880 and 2019";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		
+		else
+			vinYear = Integer.parseInt(textfieldVinYear.getText());
+		
+		//dadYOB
+		if(textfieldDadYOB.getText().trim().equals("") || textfieldDadYOB.getText().trim().isEmpty()) {
+			oReport = "Year of birth cannot be blank";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			dadYOB = Integer.parseInt(textfieldDadYOB.getText());
+		
+		//momYOB
+		if(textfieldMomYOB.getText().trim().equals("") || textfieldMomYOB.getText().trim().isEmpty()) {
+			oReport = "Year of birth cannot be blank";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		else
+			momYOB = Integer.parseInt(textfieldMomYOB.getText());
+		
+		if(dadYOB<1880||dadYOB>2019||momYOB<1880||momYOB>2019) {
+			oReport = "Year of birth must be between 1880 and 2019";
+			textAreaConsole.setText(oReport);
+			return;
+		}
+		
+		//dadRank	
+		if (AnalyzeNames.getRank(dadYOB, dadName, "M") >= 1)
+			dadRank = AnalyzeNames.getRank(dadYOB, dadName, "M");
+		
+		else 
+			dadRank = 1;
+		
+		//momRank
+		if (AnalyzeNames.getRank(momYOB, momName, "F") >= 1)
+			momRank = AnalyzeNames.getRank(momYOB, momName, "F");
+		else 
+			momRank = 1;
+		
+		//babyName
+		String boyName = AnalyzeNames.getName(vinYear, dadRank, "M");
+		String girlName = AnalyzeNames.getName(vinYear, momRank, "F");
+		
+		oReport = String.format("Recommended name for baby boy: %s\nRecommended name for baby girl: %s\n", boyName, girlName);
+		textAreaConsole.setText(oReport);
+		
+		
+	}
+
 
 }
-	
-
-    
-   
