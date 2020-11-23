@@ -87,8 +87,8 @@
                                        -->
                                     </RadioButton>
                                     <Label layoutX="109.0" layoutY="129.0" text="Period (1880 - 2019): " />
-                                    <TextField fx:id="periodTask2_1" layoutX="289.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                                    <TextField fx:id="periodTask2_2" layoutX="223.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                                    <TextField fx:id="periodTask2_1" layoutX="289.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" />
+                                    <TextField fx:id="periodTask2_2" layoutX="223.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" />
                                     <Label layoutX="271.0" layoutY="127.0" text="to" />
                                     <Button layoutX="108.0" layoutY="169.0" mnemonicParsing="false" text="REPORT" onAction="#doTask2" />
                                  </children>

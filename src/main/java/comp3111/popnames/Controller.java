@@ -580,9 +580,31 @@ public class Controller {
     	if(rbValue[0].equals("M")) gender = "male";
     	else gender = "female";
     	
+    	//handle null input 
+    	if(!invalid) {
+	    	if(periodTask2_2.getText().trim().equals("") || periodTask2_1.getText().trim().isEmpty()) {
+	    		oReport = "Period field cannot be blank";
+	    		invalid = true;
+	    	}
+    	}
+    	
     	//retrieve period fields
-    	int period1 = Integer.parseInt(periodTask2_2.getText());
-    	int period2 = Integer.parseInt(periodTask2_1.getText());
+    	int period1 = 0;
+    	int period2 = 0;
+    	if(!invalid) {
+    		Boolean parsable = true;
+    		try {
+    		period1 = Integer.parseInt(periodTask2_2.getText());
+        	period2 = Integer.parseInt(periodTask2_1.getText());
+    		} catch(NumberFormatException e) {
+    			parsable = false;
+    		}
+    		
+    		if(!parsable) {
+    			oReport = "Please input numbers into period field";
+    			invalid = true;
+    		}
+    	}
     	
     	//handle invalid input period
     	if((period1 > period2 || period1 < 1880 || period2 > 2019) && !invalid) {
@@ -602,7 +624,8 @@ public class Controller {
     	
     	
     	int arrayIndexFix = 1;
-    	if(period2-period1+2 > 1) arrayIndexFix = period2-period1+2;
+    
+    	if(!invalid && period2-period1+2 > 1) arrayIndexFix = period2-period1+2;
     	String table[][] = new String[arrayIndexFix][4];
     	if(!invalid) {
         	table[0][0] = "YEAR";
@@ -675,6 +698,19 @@ public class Controller {
     		}
     		
     		YOB = task5YOB.getText();
+    		Boolean parsable = true;
+    		try {
+    			Integer.parseInt(YOB);
+    		} catch(NumberFormatException e) {
+    			parsable = false;
+    		}
+    		
+    		if(!parsable) {
+    			oReport = "Please input a number in the YOB field.";
+    			valid = false;
+    			break;
+    		}
+    		
     		if(YOB.trim().equals("") || YOB.trim().isEmpty()) {
     			valid = false;
     			oReport = "Year of Birth field cannot be blank";
@@ -743,7 +779,7 @@ public class Controller {
     		
     		String oName = AnalyzeNames.getName(oYOB, oRank, rbValue[1]);
     		if(oName.equals("information on the name at the specified rank is not available")) {
-    			oName = AnalyzeNames.getName(oYOB, 1, rbValue[2]);
+    			oName = AnalyzeNames.getName(oYOB, 1, rbValue[1]);
     		}
     
     		oReport = "According to the NK-T5 Algorithm of Universal Compatibility, the recommended name of the soulmate is " + oName + ".";
