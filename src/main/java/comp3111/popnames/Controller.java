@@ -750,12 +750,7 @@ public class Controller {
     	}
     	textAreaConsole.setText(oReport);
     }
-}
 	
-
-    
-   
-=======
     /**
 	 * Task 4
 	 * 
