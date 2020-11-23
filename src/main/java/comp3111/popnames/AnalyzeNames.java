@@ -128,6 +128,7 @@ public class AnalyzeNames {
 
 		String riseName = minUsingIteration(ranking);
 		String fallName = maxUsingIteration(ranking);
+		
 		ArrayList<Object> ret = new ArrayList<>();
 		ret.add(riseName);
 		ret.add(fromRanking.get(riseName));
