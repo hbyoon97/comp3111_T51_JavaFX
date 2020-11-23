@@ -139,7 +139,55 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea layoutX="40.0" layoutY="27.0" prefHeight="242.0" prefWidth="638.0" text="Develop and implement an online service using empirical data to help make informed decisions on predicting names for compatible pairs.  Sample Scenario of Application: (i) A person seeking advices on identifying the name of a person of a different gender who would become his/her soulmate; (ii) A person seeking advices on identifying the name of a person of the same gender who would become his/her soulmate.&#10;&#10;Input&#10;* iName, iGender, iYOB: Particulars of the person seeking advices&#10;* iGenderMate: Specify the gender of the soulmate to be matched&#10;* iPreference: Specify the preference on having a younger or older soulmate&#10;&#10;Output&#10;* oName: Recommended name of the soulmate according to the NK-T5 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" wrapText="true" />
+                           	   <TextArea layoutX="109.0" layoutY="33.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the popularity of a particular name over a given period." wrapText="true" />
+                                    <Label layoutX="109.0" layoutY="93.0" text="Name" />
+                                    <TextField fx:id="task5Name" layoutX="159.0" layoutY="88.0" prefHeight="26.0" prefWidth="88.0" />
+                                    
+                                    <Label layoutX="277.0" layoutY="93.0" text="Gender: " />
+                                    <RadioButton fx:id="rbTask5_male" layoutX="332.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Male">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="TG5_1" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="rbTask5_female" layoutX="384.0" layoutY="93.0" mnemonicParsing="false" text="Female" toggleGroup="$T11">
+                                       <!--
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="TG5_1" />
+                                       </toggleGroup>
+                                       -->
+                                    </RadioButton>
+                                    
+                                    <Label layoutX="470.0" layoutY="93.0" text="YOB (1880-2019)" />
+                                    <TextField fx:id="task5YOB" layoutX="575.0" layoutY="88.0" prefHeight="26.0" prefWidth="88.0" />
+                                    
+                                    <Label layoutX="109.0" layoutY="129.0" text="Mate Gender: " />
+                                    <RadioButton fx:id="rbTask5_mate_male" layoutX="200.0" layoutY="129.0" mnemonicParsing="false" selected="true" text="Male">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="TG5_2" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="rbTask5_mate_female" layoutX="250.0" layoutY="129.0" mnemonicParsing="false" text="Female" toggleGroup="$TG5_2">
+                                       <!--
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="TG5_2" />
+                                       </toggleGroup>
+                                       -->
+                                    </RadioButton>
+                                    
+                                    <Label layoutX="350" layoutY="129.0" text="Preference: " />
+                                    <RadioButton fx:id="rbTask5_younger" layoutX="420.0" layoutY="129.0" mnemonicParsing="false" selected="true" text="Younger">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="TG5_3" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="rbTask5_older" layoutX="500.0" layoutY="129.0" mnemonicParsing="false" text="Older" toggleGroup="$TTG5_3">
+                                       <!--
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="TG5_3" />
+                                       </toggleGroup>
+                                       -->
+                                    </RadioButton>
+                                    <Button layoutX="108.0" layoutY="169.0" mnemonicParsing="false" text="REPORT" onAction="#doTask5" />
                            </children>
                         </AnchorPane>
                     </content>
