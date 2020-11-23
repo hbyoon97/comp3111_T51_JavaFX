@@ -576,6 +576,7 @@ public class Controller {
     	
     	//print table
     	if(!invalid) {
+    		oReport += "\n";
         	for(int row = 0; row<period2-period1+2; row++) {
         		for(int col = 0; col<4; col++) {
         			int numSpaces = 15 - table[row][col].length();
@@ -583,7 +584,7 @@ public class Controller {
             		for(int i = 0; i<numSpaces; i++) {
             			spaces += " ";
             		}
-            		oReport += "\t\t" + table[row][col] + spaces;
+            		oReport += "\t\t\t" + table[row][col] + spaces;
         		}
         		oReport += String.format("\n");
         	}	
@@ -604,7 +605,7 @@ public class Controller {
     		if(popularYearNamesBirth != 0) {
     			oReport += String.format("Within the specified period, the year when the name %s was most popular is %d.\n", name, popular_year);
         		oReport += String.format("In that year, the number of births is %d, "
-        				+ "which represents a %s percent of the total %s birth in %d"
+        				+ "which represents a %s percent of the total %s birth in %d."
         				 ,popularYearNamesBirth, String.format("%.5f", (double)(popularYearNamesBirth * 100)/popularYearTotalBirth), gender, popular_year);
     		}
     	}
