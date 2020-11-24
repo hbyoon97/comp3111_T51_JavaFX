@@ -94,7 +94,7 @@ public class AnalyzeNames {
 		if (found)
 			return oName;
 		else
-			return "information on the name at the specified rank is not available";
+			return "NoResult";
 	}
 
 	public static ArrayList<Object> getTask3(int fromYear, int toYear, String gender) {
