@@ -205,9 +205,29 @@ public class AnalyzeNames {
 				topMapFinal.put(me.getKey(), me.getValue());
 			}
 		}
-		
 		return topMapFinal;
-		
+
+	}
+
+
+	public static <K, V extends Comparable<V>> K maxUsingIteration(Map<K, V> map) {
+		Map.Entry<K, V> maxEntry = null;
+		for (Map.Entry<K, V> entry : map.entrySet()) {
+			if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
+				maxEntry = entry;
+			}
+		}
+		return maxEntry.getKey();
+	}
+
+	public static <K, V extends Comparable<V>> K minUsingIteration(Map<K, V> map) {
+		Map.Entry<K, V> minEntry = null;
+		for (Map.Entry<K, V> entry : map.entrySet()) {
+			if (minEntry == null || entry.getValue().compareTo(minEntry.getValue()) < 0) {
+				minEntry = entry;
+			}
+		}
+		return minEntry.getKey();
 	}
 
 	// Function to calculate the most frequent word in the array.
