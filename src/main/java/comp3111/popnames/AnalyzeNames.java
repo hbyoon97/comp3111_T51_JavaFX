@@ -94,71 +94,121 @@ public class AnalyzeNames {
 		if (found)
 			return oName;
 		else
-			return "information on the name at the specified rank is not available";
+			return "NoResult";
 	}
 
-	public static ArrayList<Object> getTask3(int fromYear, int toYear, String gender) {
-		Map<String, Integer> ranking = new HashMap<String, Integer>();
-		Map<String, Integer> fromRanking = new HashMap<String, Integer>();
-		Map<String, Integer> toRanking = new HashMap<String, Integer>();
-		int fromYearRankingCounter = 1;
-		int toYearRankingCounter = 1;
-
+//	public static ArrayList<Object> getTask3(int fromYear, int toYear, String gender) {
+//		Map<String, Integer> ranking = new HashMap<String, Integer>();
+//		Map<String, Integer> fromRanking = new HashMap<String, Integer>();
+//		Map<String, Integer> toRanking = new HashMap<String, Integer>();
+//		int fromYearRankingCounter = 1;
+//		int toYearRankingCounter = 1;
+//
+//		for (CSVRecord rec : getFileParser(fromYear)) {
+//			if (rec.get(1).equals(gender)) {
+//				fromRanking.put(rec.get(0), fromYearRankingCounter);
+//				fromYearRankingCounter++;
+//			}
+//		}
+//
+//		for (CSVRecord rec : getFileParser(toYear)) {
+//			if (rec.get(1).equals(gender)) {
+//				toRanking.put(rec.get(0), toYearRankingCounter);
+//				toYearRankingCounter++;
+//			}
+//		}
+//
+//		for (var toRk : toRanking.entrySet()) {
+//			Integer frRk = fromRanking.get(toRk.getKey());
+//			if (frRk != null) {
+//				// exist in both from and to year
+//				ranking.put(toRk.getKey(), toRk.getValue() - frRk);
+//			}
+//		}
+//
+//		String riseName = minUsingIteration(ranking);
+//		String fallName = maxUsingIteration(ranking);
+//		
+//		ArrayList<Object> ret = new ArrayList<>();
+//		ret.add(riseName);
+//		ret.add(fromRanking.get(riseName));
+//		ret.add(toRanking.get(riseName));
+//		ret.add(fallName);
+//		ret.add(fromRanking.get(fallName));
+//		ret.add(toRanking.get(fallName));
+//
+//		return ret;
+//	}
+	
+	// eg fromYear=1941  toYear=1945  gender=F  topN=10
+	public static Map<String, int[]> getTask3(int fromYear, int toYear, String gender, int topN) {
+		int yearRange = toYear - fromYear + 1;  // 1941 - 1945 = 5
+//		ArrayList<ArrayList<Map<String, Integer>>> topArr = new ArrayList<>();  // used to store top name info
+		
+		Map<String, int[]> topMap = new HashMap<>(); // name, List: lowYear, lowRank, HiYear, HiRank, counter
+		Map<String, int[]> topMapFinal = new HashMap<>();
+		
+		// first round by putting all top N names in fromYear into topMap
+		int topCounter = 0;
+		int lastOccurence = 0;
 		for (CSVRecord rec : getFileParser(fromYear)) {
 			if (rec.get(1).equals(gender)) {
-				fromRanking.put(rec.get(0), fromYearRankingCounter);
-				fromYearRankingCounter++;
+				if(Integer.parseInt(rec.get(2)) != lastOccurence) {
+					lastOccurence = Integer.parseInt(rec.get(2));
+					topCounter++;
+				}
+				if(topCounter <= topN) {
+					int[] temp = {fromYear, topCounter, fromYear, topCounter, 1};
+					topMap.put(rec.get(0), temp);
+				} else 
+					break;
 			}
 		}
-
-		for (CSVRecord rec : getFileParser(toYear)) {
-			if (rec.get(1).equals(gender)) {
-				toRanking.put(rec.get(0), toYearRankingCounter);
-				toYearRankingCounter++;
+		
+		// update remaining year rank info
+		for(int i = fromYear + 1; i <= toYear; i++) {
+			topCounter = 0;
+			lastOccurence = 0;
+			for (CSVRecord rec : getFileParser(i)) {
+				if (rec.get(1).equals(gender)) {
+					if(Integer.parseInt(rec.get(2)) != lastOccurence) {
+						lastOccurence = Integer.parseInt(rec.get(2));
+						topCounter++;
+					}
+					if(topCounter <= topN) {
+						// start to compare whether it exist in topMap or not
+						if(topMap.containsKey(rec.get(0))) {
+							// exist, so update info
+							int[] temp = topMap.get(rec.get(0));
+							temp[4] = temp[4] + 1;
+							if(topCounter > temp[1]) {
+								// lower than lowRank
+								temp[1] = topCounter;
+								temp[0] = i;
+							} else if (topCounter < temp[3]) {
+								// higher than HiRank
+								temp[3] = topCounter;
+								temp[2] = i;
+							}
+							
+						} else {
+							// not exist, so continue
+							continue;
+						}							
+					} else 
+						break;
+				}
 			}
 		}
-
-		for (var toRk : toRanking.entrySet()) {
-			Integer frRk = fromRanking.get(toRk.getKey());
-			if (frRk != null) {
-				// exist in both from and to year
-				ranking.put(toRk.getKey(), toRk.getValue() - frRk);
+		for(var me : topMap.entrySet()) {
+			if(me.getValue()[4] == yearRange) {
+				topMapFinal.put(me.getKey(), me.getValue());
 			}
 		}
+		return topMapFinal;
 
-		String riseName = minUsingIteration(ranking);
-		String fallName = maxUsingIteration(ranking);
-		ArrayList<Object> ret = new ArrayList<>();
-		ret.add(riseName);
-		ret.add(fromRanking.get(riseName));
-		ret.add(toRanking.get(riseName));
-		ret.add(fallName);
-		ret.add(fromRanking.get(fallName));
-		ret.add(toRanking.get(fallName));
-
-		return ret;
 	}
 
-
-	public static <K, V extends Comparable<V>> K maxUsingIteration(Map<K, V> map) {
-		Map.Entry<K, V> maxEntry = null;
-		for (Map.Entry<K, V> entry : map.entrySet()) {
-			if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
-				maxEntry = entry;
-			}
-		}
-		return maxEntry.getKey();
-	}
-
-	public static <K, V extends Comparable<V>> K minUsingIteration(Map<K, V> map) {
-		Map.Entry<K, V> minEntry = null;
-		for (Map.Entry<K, V> entry : map.entrySet()) {
-			if (minEntry == null || entry.getValue().compareTo(minEntry.getValue()) < 0) {
-				minEntry = entry;
-			}
-		}
-		return minEntry.getKey();
-	}
 
 	// Function to calculate the most frequent word in the array.
 	public static String FrequentWordname(String array[]) {

@@ -6,6 +6,7 @@ package comp3111.popnames;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,15 +19,19 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
@@ -111,16 +116,19 @@ public class Controller {
 	private NumberTextField task3toYear;
 
 	@FXML
+	private NumberTextField task3topN;
+	
+	@FXML
 	private Button buttonReport;
 
 	@FXML
-	private TextField textfieldtopN;
+	private NumberTextField textfieldtopN;
 
 	@FXML
-	private TextField textfieldy1;
+	private NumberTextField textfieldy1;
 
 	@FXML
-	private TextField textfieldy2;
+	private NumberTextField textfieldy2;
 
 	@FXML
 	private RadioButton male;
@@ -183,19 +191,37 @@ public class Controller {
    	private TextField textfieldDadName;
     
     @FXML
-   	private TextField textfieldDadYOB;
+   	private NumberTextField textfieldDadYOB;
     
     @FXML
-   	private TextField textfieldMomYOB;
+   	private NumberTextField textfieldMomYOB;
 
 	  @FXML
-	  private TextField textfieldVinYear;
+	  private NumberTextField textfieldVinYear;
+	  
+	    @FXML
+	    private TextField task6userName;
+
+	    @FXML
+	    private ToggleGroup T61;
+
+	    @FXML
+	    private NumberTextField task6userYob;
+
+	    @FXML
+	    private TextField task6mateName;
+
+	    @FXML
+	    private ToggleGroup T62;
+
+	    @FXML
+	    private ChoiceBox<?> task6pref;
 
 	@FXML
 	private void initialize() {
 		T111 = new ToggleGroup();
 		task3female.setToggleGroup(T111);
-		task3male.setToggleGroup(T111);
+		task3male.setToggleGroup(T111);		
 	}
 
 	/**
@@ -280,8 +306,29 @@ public class Controller {
 	 */
 	@FXML
 	void doTask3() {
-		int fromYear = task3fromYear.getValue();
-		int toYear = task3toYear.getValue();
+		int fromYear;
+		int toYear;
+		int topN;
+		String gender;
+		
+		if(task3fromYear.getText() == null || task3fromYear.getText().isEmpty()) {
+			showAlert("The period cannot be empty.");
+			return;
+		} else 
+			fromYear = task3fromYear.getValue();
+		
+		if(task3toYear.getText() == null || task3toYear.getText().isEmpty()) {
+			showAlert("The period cannot be empty.");
+			return;
+		} else 
+			toYear = task3toYear.getValue();
+		
+		if(task3topN.getText() == null || task3topN.getText().isEmpty()) {
+			showAlert("The level of popularity cannot be empty.");
+			return;
+		} else 
+			topN = task3topN.getValue();
+			
 		if (fromYear < 1880) {
 			showAlert("The period should not be earlier than 1880.");
 			return;
@@ -290,25 +337,26 @@ public class Controller {
 			showAlert("The period should not be later than 2019.");
 			return;
 		}
-		if (fromYear >= toYear) {
-			showAlert("The period is not correct.");
+		if (fromYear > toYear) {  // 1941 > 1945 
+			showAlert("The period is not valid.");
 			return;
 		}
-		String gender = ((RadioButton) T111.getSelectedToggle()).getText().equals("Female") ? "F" : "M";
-		ArrayList<Object> ret = AnalyzeNames.getTask3(fromYear, toYear, gender);
-		String summary = String.format(
-				"%s is found to have shown the largest rise in popularity from rank %d in year %d"
-						+ " to rank %d in year %d. On the other hand, %s is found to have shown the largest fall in popularity"
-						+ " from rank %d in year %d to rank %d in year %d.",
-				ret.get(0), ret.get(1), fromYear, ret.get(2), toYear, ret.get(3), ret.get(4), fromYear, ret.get(5),
-				toYear);
+		if (topN <= 0) {
+			showAlert("The popularity should not be zero or negative.");
+			return;
+		}
+		gender = ((RadioButton) T111.getSelectedToggle()).getText().equals("Female") ? "F" : "M";
+		
+		Map<String, int[]> ret = AnalyzeNames.getTask3(fromYear, toYear, gender, topN);
+		
+		String summary = String.format("%d names are found to be maintained at a high level of popularity "
+				+ "within Top %d over the period from year %d to year %d.",
+				ret.size(), topN, fromYear, toYear);
+//		textAreaConsole.setText(summary);
 
-//    	Platform.runLater(()->{
-//    		textAreaConsole.setText(summary);
-//    	});
 
 		Stage task3Stage = new Stage();
-		task3Stage.setWidth(700);
+		task3Stage.setWidth(600);
 		task3Stage.setHeight(500);
 		VBox root = new VBox();
 		root.setAlignment(Pos.CENTER);
@@ -316,13 +364,13 @@ public class Controller {
 		TextArea textArea = new TextArea();
 		textArea.setWrapText(true);
 		textArea.setText(summary);
+		textArea.setMaxHeight(50);
 
 		GridPane grid = new GridPane();
 		grid.setMinHeight(200);
 		grid.setMaxWidth(600);
 		grid.setAlignment(Pos.CENTER);
 		grid.setGridLinesVisible(true);
-//		grid.setVgap(5);
 
 		ColumnConstraints col1 = new ColumnConstraints();
 		col1.setPercentWidth(25);
@@ -339,7 +387,6 @@ public class Controller {
 		grid.getColumnConstraints().addAll(col1, col2, col3, col4);
 
 		Label name = new Label("Name");
-//		name.setFont(new Font("Arial", 24));
 		grid.add(name, 0, 0);
 
 		Label lrk = new Label("Lowest Rank");
@@ -347,68 +394,53 @@ public class Controller {
 		VBox lrkbox = new VBox();
 		lrkbox.setAlignment(Pos.CENTER);
 		lrkbox.getChildren().addAll(lrk, lrkyr);
-//		lrk.setFont(new Font("Arial", 24));
 		grid.add(lrkbox, 1, 0);
 
 		Label hrk = new Label("Highest Rank");
 		Label hrkyr = new Label("[in year]");
-//		hrk.setFont(new Font("Arial", 24));
 		VBox hrkbox = new VBox();
 		hrkbox.setAlignment(Pos.CENTER);
 		hrkbox.getChildren().addAll(hrk, hrkyr);
 		grid.add(hrkbox, 2, 0);
-		grid.setMargin(hrkbox, new Insets(5, 10, 5, 10));
+		GridPane.setMargin(hrkbox, new Insets(5, 10, 5, 10));
 
-		Label trend = new Label("Trend");
-//		trend.setFont(new Font("Arial", 24));
+		Label trend = new Label("Gross Trend");
 		grid.add(trend, 3, 0);
-
-		grid.add(new Label((String) ret.get(0)), 0, 1); // name rise
-		grid.add(new Label((String) ret.get(3)), 0, 2); // name fall
-
-		Label loRkRise = new Label(ret.get(1).toString());
-		Label loRkRiseYr = new Label("[" + fromYear + "]");
-		VBox loRkRisebox = new VBox();
-		loRkRisebox.setAlignment(Pos.CENTER);
-		loRkRisebox.getChildren().addAll(loRkRise, loRkRiseYr);
-		grid.add(loRkRisebox, 1, 1);
-		grid.setMargin(loRkRisebox, new Insets(5, 10, 5, 10));
-
-//		String hiRkRise = ret.get(2).toString() + "\n[" + toYear + "]";
-//		grid.add(new Label(hiRkRise), 2, 1);
-		Label hiRkRise = new Label(ret.get(2).toString());
-		Label hiRkRiseYr = new Label("[" + toYear + "]");
-		VBox hiRkRisebox = new VBox();
-		hiRkRisebox.setAlignment(Pos.CENTER);
-		hiRkRisebox.getChildren().addAll(hiRkRise, hiRkRiseYr);
-		grid.add(hiRkRisebox, 2, 1);
-
-//		String loRkFall = ret.get(5).toString() + "\n[" + toYear + "]";
-//		grid.add(new Label(loRkFall), 1, 2);
-		Label loRkFall = new Label(ret.get(5).toString());
-		Label loRkFallyr = new Label("[" + toYear + "]");
-		VBox loRkFallbox = new VBox();
-		loRkFallbox.setAlignment(Pos.CENTER);
-		loRkFallbox.getChildren().addAll(loRkFall, loRkFallyr);
-		grid.add(loRkFallbox, 1, 2);
-		grid.setMargin(loRkFallbox, new Insets(5, 10, 5, 10));
-
-//		String hiRkFall = ret.get(4).toString() + "\n[" + fromYear + "]";
-//		grid.add(new Label(hiRkFall), 2, 2);
-		Label hiRkFall = new Label(ret.get(4).toString());
-		Label hiRkFallyr = new Label("[" + fromYear + "]");
-		VBox hiRkFallbox = new VBox();
-		hiRkFallbox.setAlignment(Pos.CENTER);
-		hiRkFallbox.getChildren().addAll(hiRkFall, hiRkFallyr);
-		grid.add(hiRkFallbox, 2, 2);
-
-		String trendRise = ((Integer) ret.get(1) - (Integer) ret.get(2)) + " ranks up";
-		grid.add(new Label(trendRise), 3, 1);
-
-		String trendFall = ((Integer) ret.get(5) - (Integer) ret.get(4)) + " ranks down";
-		grid.add(new Label(trendFall), 3, 2);
-
-		root.getChildren().addAll(grid, textArea);
+		
+		// start making data rows		
+		// name, int[]: lowYear, lowRank, HiYear, HiRank, counter
+		int mapRow = 1;
+		for(var me : ret.entrySet()) {
+			grid.add(new Label(me.getKey()), 0, mapRow);  // name
+			
+			Label loRk = new Label(String.valueOf(me.getValue()[1]));
+			Label loRkYr = new Label("[" + me.getValue()[0] + "]");
+			VBox loRkbox = new VBox();
+			loRkbox.setAlignment(Pos.CENTER);
+			loRkbox.getChildren().addAll(loRk, loRkYr);
+			grid.add(loRkbox, 1, mapRow);
+			GridPane.setMargin(loRkbox, new Insets(5, 10, 5, 10));
+			
+			Label hiRk = new Label(String.valueOf(me.getValue()[3]));
+			Label hiRkYr = new Label("[" + me.getValue()[2] + "]");
+			VBox hiRkbox = new VBox();
+			hiRkbox.setAlignment(Pos.CENTER);
+			hiRkbox.getChildren().addAll(hiRk, hiRkYr);
+			grid.add(hiRkbox, 2, mapRow);
+			GridPane.setMargin(hiRkbox, new Insets(5, 10, 5, 10));
+			
+			String gtrend = me.getValue()[0] == me.getValue()[2] ? "FLAT" : me.getValue()[0] > me.getValue()[2] ? "DOWN" : "UP";
+			grid.add(new Label(gtrend), 3, mapRow);  // gross trend
+			
+			mapRow++;
+		}
+		
+		ScrollPane s1 = new ScrollPane();
+		s1.setContent(grid);
+		s1.setPrefHeight(400);
+		s1.setFitToWidth(true);
+		
+		root.getChildren().addAll(s1, textArea);
 		Scene scene = new Scene(root);
 		task3Stage.setScene(scene);
 		task3Stage.setTitle("Task 3");
@@ -872,5 +904,66 @@ public class Controller {
 		
 	}
 
+    /**
+     * Task 6
+     */
+    @FXML
+    void doTask6() {
+    	String userName = task6userName.getText();
+    	String userGender = ((RadioButton) T61.getSelectedToggle()).getText() == "Male" ? "M" : "F";
+    	String userYobString = task6userYob.getText();
+    	String mateName = task6mateName.getText();
+    	String mateGender = ((RadioButton) T62.getSelectedToggle()).getText() == "Male" ? "M" : "F";
+    	String preference = (String) task6pref.getSelectionModel().getSelectedItem();
+    	
+//    	String oReport = userName + userGender + userYob + mateName + mateGender + preference;
+//		textAreaConsole.setText(userYobString);
+    	
+    	// start validation
+    	if(userName == null || userName.isEmpty()) {
+    		showAlert("Your name cannot be empty!");
+    		return;
+    	}
+    	if(userYobString == null || userYobString.isEmpty()) {
+    		showAlert("Your YOB cannot be empty!");
+    		return;
+    	}
+    	if(mateName == null || mateName.isEmpty()) {
+    		showAlert("Soulmate's name cannot be empty!");
+    		return;
+    	}
+    	int userYob = Integer.parseInt(userYobString);
+    	if(userYob < 1880 || userYob > 2019) {
+    		showAlert("Your YOB is our of range!");
+    		return;
+    	}
+    	if(userYob == 1880 && preference.equals("Older")) {
+    		showAlert("Your soulmate is too old!");
+    		return;
+    	}
+    	if(userYob == 2019 && preference.equals("Younger")) {
+    		showAlert("Your soulmate is too young!");
+    		return;
+    	}
+    	// end validation
+    	
+    	// start calculating score
+    	int oRank = AnalyzeNames.getRank(userYob, userName, userGender);
+    	if(oRank == -1) oRank = 1;
+    	
+    	int oYOB = userYob;
+    	if(preference.equals("Younger")) oYOB++;
+    	if(preference.equals("Older")) oYOB--;
+    	
+    	int oRankMate = AnalyzeNames.getRank(oYOB, mateName, mateGender);
+    	if(oRankMate == -1) oRankMate = 1;
+    	
+    	double oScore = (1 - Math.abs(oRank - (double) oRankMate / oRank)) * 100;
+    	
+    	// finish calculation
+    	String oReport = String.format("According to the NK-T5 Algorithm of Universal Compatibility:\nThe score of compatibility for you and your soulmate is %.1f%%", oScore);
+		textAreaConsole.setText(oReport);
+    	
+    }
 
 }
