@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
@@ -10,8 +11,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import comp3111.popnames.NumberTextField?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 
 <VBox prefHeight="679.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
   <children>
@@ -103,7 +111,7 @@
                            <children>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="719.0">
                                  <children>
-                                    <TextArea layoutX="112.0" layoutY="26.0" prefHeight="61.0" prefWidth="355.0" text="Generate a brief report in response to the queries on identifying the names that have shown the largest rise/fall in popularity over a given period.&#10;" wrapText="true" />
+                                    <TextArea layoutX="112.0" layoutY="26.0" prefHeight="61.0" prefWidth="355.0" text="Generate a brief report in response to the queries on identifying the names that have maintained a high level of popularity within Top N over a given period." wrapText="true" />
                                     <RadioButton fx:id="task3female" layoutX="290.0" layoutY="104.0" mnemonicParsing="false" text="Female">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="T111" />
@@ -116,10 +124,12 @@
                                     </RadioButton>
                                     <Label layoutX="112.0" layoutY="104.0" text="Gender of Interest: " />
                                     <Label layoutX="112.0" layoutY="138.0" text="Period (1880 - 2019): " />
-                                    <NumberTextField fx:id="task3toYear" layoutX="292.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                                    <NumberTextField fx:id="task3fromYear" layoutX="226.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
-                                    <Label layoutX="274.0" layoutY="136.0" text="to" />
-                                    <Button layoutX="112.0" layoutY="175.0" mnemonicParsing="false" text="REPORT" onAction="#doTask3" />
+                                    <Label layoutX="112.0" layoutY="172.0" text="Level of popularity: " />
+                                    <NumberTextField fx:id="task3toYear" layoutX="307.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
+                                    <NumberTextField fx:id="task3fromYear" layoutX="241.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                                    <NumberTextField fx:id="task3topN" layoutX="241.0" layoutY="166.0" prefHeight="26.0" prefWidth="43.0" text="10" />
+                                    <Label layoutX="289.0" layoutY="136.0" text="to" />
+                                    <Button layoutX="112.0" layoutY="209.0" mnemonicParsing="false" text="REPORT" onAction="#doTask3" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -210,7 +220,102 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label layoutX="40.0" layoutY="39.0"  text="Prediction on Scores for Compatible Pairs" />
+                              <Label alignment="CENTER" layoutX="180.0" layoutY="22.0" text="Prediction on Scores for Compatible Pairs">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Label>
+                              <HBox layoutX="149.0" layoutY="78.0" prefHeight="136.0" prefWidth="460.0">
+                                 <children>
+                                    <VBox prefHeight="100.0" prefWidth="230.0">
+                                       <children>
+                                          <Label prefHeight="26.0" prefWidth="132.0" text="Your information:">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <GridPane prefHeight="94.0" prefWidth="217.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.400048828125" minWidth="10.0" prefWidth="49.80003662109375" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.4000244140625" minWidth="10.0" prefWidth="141.6" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.4000244140625" minWidth="10.0" prefWidth="43.19999999999999" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints maxHeight="30.799999999999997" minHeight="0.19998815059661723" prefHeight="15.399999999999999" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.60001184940338" minHeight="0.0" prefHeight="15.399999999999999" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.60001184940338" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Name:" />
+                                                <TextField fx:id="task6userName" prefHeight="26.0" prefWidth="155.0" GridPane.columnIndex="1" />
+                                                <Label text="Gender:" GridPane.rowIndex="1" />
+                                                <Label text="YOB:" GridPane.rowIndex="2" />
+                                                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                   <children>
+                                                      <RadioButton mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" selected="true" text="Male">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="T61" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Female" toggleGroup="$T61" />
+                                                   </children>
+                                                </HBox>
+                                                <NumberTextField fx:id="task6userYob" prefHeight="23.0" prefWidth="141.0" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="1880 - 2019"/>
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="100.0" prefWidth="230.0">
+                                       <children>
+                                          <Label prefHeight="28.0" prefWidth="150.0" text="Soulmate information:">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Label>
+                                          <GridPane>
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="86.39996337890625" minWidth="10.0" prefWidth="52.79998779296875" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="153.60001220703126" minWidth="10.0" prefWidth="141.80002441406248" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="71.39999389648438" minWidth="10.0" prefWidth="39.39997558593751" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Name:" />
+                                                <TextField fx:id="task6mateName" prefHeight="26.0" prefWidth="155.0" GridPane.columnIndex="1" />
+                                                <Label prefHeight="18.0" prefWidth="56.0" text="Gender:" GridPane.rowIndex="1" />
+                                                <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                   <children>
+                                                      <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="78.0" selected="true" text="Male">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="T62" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="83.0" text="Female" toggleGroup="$T62" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </GridPane>
+                                          <HBox prefHeight="36.0" prefWidth="230.0">
+                                             <children>
+                                                <Label prefHeight="56.0" prefWidth="68.0" text="Preference: " />
+                                                <ChoiceBox fx:id="task6pref" prefHeight="26.0" prefWidth="125.0" translateY="5.0" value="No preference">
+                                                	<items>
+	                                                	<FXCollections fx:factory="observableArrayList">
+	                                                		<String fx:value="No preference" />
+	                                                		<String fx:value="Younger" />
+	                                                		<String fx:value="Older" />
+	                                                	</FXCollections>
+                                                	</items>
+                                                </ChoiceBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <Button layoutX="330.0" layoutY="232.0" mnemonicParsing="false" onAction="#doTask6" text="Submit" />
                            </children>
                         </AnchorPane>
                     </content>
