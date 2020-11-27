@@ -45,7 +45,7 @@ public class AnalyzeNamesTest {
     public void testGetNameNotFound() {
     	AnalyzeNames a = new AnalyzeNames();
     	String name = a.getName(2019, 27777, "F");
-    	assertTrue(name.equals("information on the name at the specified rank is not available"));
+    	assertTrue(name.equals("NoResult"));
     }
     
     @Test 
