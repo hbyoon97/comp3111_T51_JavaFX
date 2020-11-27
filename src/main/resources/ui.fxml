@@ -98,7 +98,7 @@
                                     <TextField fx:id="periodTask2_1" layoutX="289.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" />
                                     <TextField fx:id="periodTask2_2" layoutX="223.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" />
                                     <Label layoutX="271.0" layoutY="127.0" text="to" />
-                                    <Button layoutX="108.0" layoutY="169.0" mnemonicParsing="false" text="REPORT" onAction="#doTask2" />
+                                    <Button fx:id="doTask2" layoutX="108.0" layoutY="169.0" mnemonicParsing="false" text="REPORT" onAction="#doTask2" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -163,7 +163,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                           	   <TextArea layoutX="109.0" layoutY="33.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the popularity of a particular name over a given period." wrapText="true" />
+                           	   <TextArea layoutX="109.0" layoutY="33.0" prefHeight="42.0" prefWidth="335.0" text="Return a recommended name for compatible pairs according to the NK-T5 Algorithm of Universal Compatibility" wrapText="true" />
                                     <Label layoutX="109.0" layoutY="93.0" text="Name" />
                                     <TextField fx:id="task5Name" layoutX="159.0" layoutY="88.0" prefHeight="26.0" prefWidth="88.0" />
                                     
@@ -173,7 +173,7 @@
                                           <ToggleGroup fx:id="TG5_1" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="rbTask5_female" layoutX="384.0" layoutY="93.0" mnemonicParsing="false" text="Female" toggleGroup="$T11">
+                                    <RadioButton fx:id="rbTask5_female" layoutX="384.0" layoutY="93.0" mnemonicParsing="false" text="Female" toggleGroup="$TG5_1">
                                        <!--
                                        <toggleGroup>
                                           <ToggleGroup fx:id="TG5_1" />
@@ -204,14 +204,14 @@
                                           <ToggleGroup fx:id="TG5_3" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="rbTask5_older" layoutX="500.0" layoutY="129.0" mnemonicParsing="false" text="Older" toggleGroup="$TTG5_3">
+                                    <RadioButton fx:id="rbTask5_older" layoutX="500.0" layoutY="129.0" mnemonicParsing="false" text="Older" toggleGroup="$TG5_3">
                                        <!--
                                        <toggleGroup>
                                           <ToggleGroup fx:id="TG5_3" />
                                        </toggleGroup>
                                        -->
                                     </RadioButton>
-                                    <Button layoutX="108.0" layoutY="169.0" mnemonicParsing="false" text="REPORT" onAction="#doTask5" />
+                                    <Button fx:id="doTask5" layoutX="108.0" layoutY="169.0" mnemonicParsing="false" text="REPORT" onAction="#doTask5" />
                            </children>
                         </AnchorPane>
                     </content>
