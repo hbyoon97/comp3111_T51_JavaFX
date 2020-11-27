@@ -61,4 +61,37 @@ public class AnalyzeNamesTest {
     			"***Unique Names (baby girls) = 17,905\n" + 
     			"***Unique Names (baby boys) = 14,049\n");
     }
+    
+    @Test
+    //getNameCount()
+    public void testGetNameCount() {
+    	AnalyzeNames a = new AnalyzeNames();
+    	int result = a.getNameCount("Tommy", "M", 1997);
+    	assertEquals(result, 995);
+    }
+    
+    @Test
+    //getTotalBirths()
+    public void testGetTotalBirths() {
+    	AnalyzeNames a = new AnalyzeNames();
+    	int result = a.getTotalBirths(1997, "F");
+    	assertEquals(result, 1739806);
+    }
+    
+    @Test
+    //mostPopularYear()
+    public void testMostPopularYear() {
+    	AnalyzeNames a = new AnalyzeNames();
+    	int result = a.mostPopularYear(1941, 1945, "John", "M");
+    	assertEquals(result, 1945);
+    }
+    
+    @Test
+    //mostPopularYear()
+    public void testMostPopularYear2() {
+    	AnalyzeNames a = new AnalyzeNames();
+    	int result = a.mostPopularYear(1968, 2019, "Ida", "M");
+    	assertEquals(result, 0);
+    }
+    
 }

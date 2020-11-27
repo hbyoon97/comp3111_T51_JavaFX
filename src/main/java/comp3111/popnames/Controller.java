@@ -618,10 +618,6 @@ public class Controller {
     	//get totalBirth for specified
     	int totalBirth = 0;
     	if(!invalid) totalBirth = AnalyzeNames.getTotalBirths(period2, rbValue[0]);
-    	if(totalBirth == 0 && !invalid) {
-    		oReport = String.format("There was no %s born in %d!", gender, period2);
-    	}
-    	
     	
     	int arrayIndexFix = 1;
     
@@ -660,8 +656,16 @@ public class Controller {
     	}
     	
     	//valid oReport
+    	int popular_year = 0;
     	if(!invalid) {
-    		int popular_year = AnalyzeNames.mostPopularYear(period1, period2, name, rbValue[0]);
+    		popular_year = AnalyzeNames.mostPopularYear(period1, period2, name, rbValue[0]);
+    		if(popular_year == 0) {
+    			oReport = String.format("There was no %s (%s) born from %d to %d!", name, rbValue[0], period1, period2);
+    			invalid = true;
+    		}
+    	}
+    	
+    	if(!invalid) {
         	int popularYearNamesBirth = AnalyzeNames.getNameCount(name, rbValue[0], popular_year);
         	int popularYearTotalBirth = AnalyzeNames.getTotalBirths(popular_year, rbValue[0]);
     		if(AnalyzeNames.getRank(period2, name, rbValue[0]) == -1) oReport += String.format("The name %s (%s) has not been ranked in the year %d.\n", name, rbValue[0], period2);
@@ -711,13 +715,10 @@ public class Controller {
     			break;
     		}
     		
-    		if(YOB.trim().equals("") || YOB.trim().isEmpty()) {
-    			valid = false;
-    			oReport = "Year of Birth field cannot be blank";
-    			break;
-    		} else if(Integer.parseInt(YOB) < 1880 || Integer.parseInt(YOB) > 2019) {
+    		if(Integer.parseInt(YOB) < 1880 || Integer.parseInt(YOB) > 2019) {
     			valid = false;
     			oReport = "Please input valid year of birth (1880 - 2019)";
+    			break;
     		}
     		     	
         	//retrieve radio button value

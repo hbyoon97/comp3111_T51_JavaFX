@@ -240,7 +240,7 @@ public class AnalyzeNames {
 	 }
 	 
 	 public static int mostPopularYear(int period1, int period2, String name, String gender) {
-		 int popular_year = period1;
+		 int popular_year = 0;
 		 int maxRank = 10000;
 		 double thisPercent;
 		 double maxPercent = 0.0;
@@ -259,7 +259,6 @@ public class AnalyzeNames {
 				 popular_year = i;
 			 }
 		 }
-		 System.out.println(popular_year);
 		 return popular_year;
 	 }
 }
