@@ -32,8 +32,161 @@ public class ControllerTest extends ApplicationTest {
    		s = scene;
 		t = (TextArea)s.lookup("#textAreaConsole");
 	}
+	
+	@Test
+	//No input
+	public void testTask1_1() {
+		clickOn("#tabReport1");
+		clickOn("#doTask1");
+		String s1 = t.getText();
+		String s2 = "N cannot be empty";
+		assertTrue(s1.equals(s2));
+	}
+	
+	@Test
+	//Input N only
+	public void testTask1_2() {
+		clickOn("#tabReport1");
+		TextField task1_N = (TextField)s.lookup("#textfieldtopN");
+		task1_N.setText("10");
+		clickOn("#doTask1");
+		String s1 = t.getText();
+		String s2 = "year cannot be empty";
+		assertTrue(s1.equals(s2));
+	}
+	
+	@Test
+	//Input N with y1 only
+	public void testTask1_3() {
+		clickOn("#tabReport1");
+		TextField task1_N = (TextField)s.lookup("#textfieldtopN");
+		TextField task1_y1 = (TextField)s.lookup("#textfieldy1");
+		task1_N.setText("10");
+		task1_y1.setText("1880");
+		clickOn("#doTask1");
+		String s1 = t.getText();
+		String s2 = "year cannot be empty";
+		assertTrue(s1.equals(s2));
+	}
+	
+	@Test
+	//All inputs filled(invalid N)
+	public void testTask1_4() {
+		clickOn("#tabReport1");
+		TextField task1_N = (TextField)s.lookup("#textfieldtopN");
+		TextField task1_y1 = (TextField)s.lookup("#textfieldy1");
+		TextField task1_y2 = (TextField)s.lookup("#textfieldy2");
+		task1_N.setText("0");
+		task1_y1.setText("1880");
+		task1_y2.setText("1900");
+		clickOn("#doTask1");
+		String s1 = t.getText();
+		String s2 = "Please input a number that is greater than or equal to 1 for the value N\n";
+		assertTrue(s1.equals(s2));
+	}
+	
+	@Test
+	//All inputs filled(invalid period 1)
+	public void testTask1_5() {
+		clickOn("#tabReport1");
+		TextField task1_N = (TextField)s.lookup("#textfieldtopN");
+		TextField task1_y1 = (TextField)s.lookup("#textfieldy1");
+		TextField task1_y2 = (TextField)s.lookup("#textfieldy2");
+		task1_N.setText("10");
+		task1_y1.setText("1700");
+		task1_y2.setText("2020");
+		clickOn("#doTask1");
+		String s1 = t.getText();
+		String s2 = "The period of interest must be between 1880 and 2019\n";
+		assertTrue(s1.equals(s2));
+	}
+	
+	@Test
+	//All inputs filled(invalid period 2)
+		public void testTask1_6() {
+			clickOn("#tabReport1");
+			TextField task1_N = (TextField)s.lookup("#textfieldtopN");
+			TextField task1_y1 = (TextField)s.lookup("#textfieldy1");
+			TextField task1_y2 = (TextField)s.lookup("#textfieldy2");
+			task1_N.setText("10");
+			task1_y1.setText("1900");
+			task1_y2.setText("1880");
+			clickOn("#doTask1");
+			String s1 = t.getText();
+			String s2 = "Incorrect period\n";
+			assertTrue(s1.equals(s2));
+	}
+	
+	@Test
+	//Valid inputs(Male)
+	public void testTask1_7() {
+		clickOn("#tabReport1");
+		TextField task1_N = (TextField)s.lookup("#textfieldtopN");
+		TextField task1_y1 = (TextField)s.lookup("#textfieldy1");
+		TextField task1_y2 = (TextField)s.lookup("#textfieldy2");
+		task1_N.setText("3");
+		task1_y1.setText("1880");
+		task1_y2.setText("1883");
+		clickOn("#doTask1");
+		String s1 = t.getText();
+		String s2 = "Year\t";
+		for (int k = 1; k <= 3; k++)
+			s2 += String.format("Top%d\t\t", k);
+		s2 += String.format("\n");
 
-    
+		for (int i = 1880; i <= 1883; i++) {
+			s2 += String.format("%d\t", i);
+			for (int j = 1; j <= 3; j++) {
+				String name = AnalyzeNames.getName(i, j, "M");
+				if (name.length() > 7)
+					s2 += String.format("%s\t", name);
+				else
+					s2 += String.format("%s\t\t", name);
+			}
+			s2 += String.format("\n");
+		}
+
+		s2 += String.format(
+				"\nOver the period 1880 to 1883, John for Male has hold the top spot \nmost often for a total of 4 times.");
+		assertTrue(s1.equals(s2));
+	}
+	
+	@Test
+	//Valid inputs(Female)
+	public void testTask1_8() {
+		clickOn("#tabReport1");
+		TextField task1_N = (TextField)s.lookup("#textfieldtopN");
+		TextField task1_y1 = (TextField)s.lookup("#textfieldy1");
+		TextField task1_y2 = (TextField)s.lookup("#textfieldy2");
+		task1_N.setText("3");
+		task1_y1.setText("1880");
+		task1_y2.setText("1883");
+		RadioButton task1_female = (RadioButton)s.lookup("#female");
+		task1_female.setSelected(true);
+		clickOn("#doTask1");
+		String s1 = t.getText();
+		String s2 = "Year\t";
+		for (int k = 1; k <= 3; k++)
+			s2 += String.format("Top%d\t\t", k);
+		s2 += String.format("\n");
+
+		for (int i = 1880; i <= 1883; i++) {
+			s2 += String.format("%d\t", i);
+			for (int j = 1; j <= 3; j++) {
+				String name = AnalyzeNames.getName(i, j, "F");
+				if (name.length() > 7)
+					s2 += String.format("%s\t", name);
+				else
+					s2 += String.format("%s\t\t", name);
+			}
+			s2 += String.format("\n");
+		}
+
+		s2 += String.format(
+				"\nOver the period 1880 to 1883, Mary for Female has hold the top spot \nmost often for a total of 4 times.");
+		assertTrue(s1.equals(s2));
+	}
+	
 	@Test
 	//no name
 	public void testTask2_1() {	
@@ -348,4 +501,150 @@ public class ControllerTest extends ApplicationTest {
 		String result = "According to the NK-T5 Algorithm of Universal Compatibility, the recommended name of the soulmate is Michael.";
 		assertTrue(s1.equals(result));
 	}
+	
+	@Test
+	//No Name for either Dad or Mom
+	public void testTask4_1() {
+		clickOn("#tabApp1");
+		clickOn("#doTask4");
+		String s1 = t.getText();
+		String s2 = "Name field cannot be blank";
+		assertTrue(s1.equals(s2));
+		
+	}
+	
+	@Test
+	//No YOB for Dad
+	public void testTask4_2() {
+		clickOn("#tabApp1");
+		TextField task4_dadname = (TextField)s.lookup("#textfieldDadName");
+		TextField task4_momname = (TextField)s.lookup("#textfieldMomName");
+		TextField task4_dadYOB = (TextField)s.lookup("#textfieldDadYOB");
+		task4_dadname.setText("Gary");
+		task4_momname.setText("Mary");
+		task4_dadYOB.setText("1900");
+		clickOn("#doTask4");
+		String s1 = t.getText();
+		String s2 = "Year of birth cannot be blank";
+		assertTrue(s1.equals(s2));
+		
+	}
+	
+	@Test
+	//No YOB for Mom
+	public void testTask4_3() {
+		clickOn("#tabApp1");
+		TextField task4_dadname = (TextField)s.lookup("#textfieldDadName");
+		TextField task4_momname = (TextField)s.lookup("#textfieldMomName");
+		TextField task4_momYOB = (TextField)s.lookup("#textfieldMomYOB");
+		task4_dadname.setText("Gary");
+		task4_momname.setText("Mary");
+		task4_momYOB.setText("1905");
+		clickOn("#doTask4");
+		String s1 = t.getText();
+		String s2 = "Year of birth cannot be blank";
+		assertTrue(s1.equals(s2));
+		
+	}
+	
+	@Test
+	//Invalid YOB
+	public void testTask4_4() {
+		clickOn("#tabApp1");
+		TextField task4_dadname = (TextField)s.lookup("#textfieldDadName");
+		TextField task4_momname = (TextField)s.lookup("#textfieldMomName");
+		TextField task4_dadYOB = (TextField)s.lookup("#textfieldDadYOB");
+		TextField task4_momYOB = (TextField)s.lookup("#textfieldMomYOB");
+		task4_dadname.setText("Gary");
+		task4_momname.setText("Mary");
+		task4_dadYOB.setText("1879");
+		task4_momYOB.setText("1905");
+		clickOn("#doTask4");
+		String s1 = t.getText();
+		String s2 = "Year of birth must be between 1880 and 2019";
+		assertTrue(s1.equals(s2));
+		
+	}
+	
+	@Test
+	//Invalid VinYear
+	public void testTask4_5() {
+		clickOn("#tabApp1");
+		TextField task4_dadname = (TextField)s.lookup("#textfieldDadName");
+		TextField task4_momname = (TextField)s.lookup("#textfieldMomName");
+		TextField task4_dadYOB = (TextField)s.lookup("#textfieldDadYOB");
+		TextField task4_momYOB = (TextField)s.lookup("#textfieldMomYOB");
+		TextField task4_VinYear = (TextField)s.lookup("#textfieldVinYear");
+		task4_dadname.setText("Gary");
+		task4_momname.setText("Mary");
+		task4_dadYOB.setText("1900");
+		task4_momYOB.setText("1905");
+		task4_VinYear.setText("1879");
+		clickOn("#doTask4");
+		String s1 = t.getText();
+		String s2 = "Vintage year must be between 1880 and 2019";
+		assertTrue(s1.equals(s2));
+		
+	}
+	
+	@Test
+	//Special case 1
+	public void testTask4_6() {
+		clickOn("#tabApp1");
+		TextField task4_dadname = (TextField)s.lookup("#textfieldDadName");
+		TextField task4_momname = (TextField)s.lookup("#textfieldMomName");
+		TextField task4_dadYOB = (TextField)s.lookup("#textfieldDadYOB");
+		TextField task4_momYOB = (TextField)s.lookup("#textfieldMomYOB");
+		task4_dadname.setText("XXX");
+		task4_momname.setText("Mary");
+		task4_dadYOB.setText("1995");
+		task4_momYOB.setText("1999");
+		clickOn("#doTask4");
+		String s1 = t.getText();
+		String s2 = String.format("Recommended name for baby boy: Liam\nRecommended name for baby girl: Aubrey\n");
+		assertTrue(s1.equals(s2));
+		
+	}
+	
+	@Test
+	//Special case 2
+	public void testTask4_7() {
+		clickOn("#tabApp1");
+		TextField task4_dadname = (TextField)s.lookup("#textfieldDadName");
+		TextField task4_momname = (TextField)s.lookup("#textfieldMomName");
+		TextField task4_dadYOB = (TextField)s.lookup("#textfieldDadYOB");
+		TextField task4_momYOB = (TextField)s.lookup("#textfieldMomYOB");
+		TextField task4_VinYear = (TextField)s.lookup("#textfieldVinYear");
+		task4_dadname.setText("Gary");
+		task4_momname.setText("YYY");
+		task4_dadYOB.setText("1900");
+		task4_momYOB.setText("1905");
+		task4_VinYear.setText("1999");
+		clickOn("#doTask4");
+		String s1 = t.getText();
+		String s2 = String.format("Recommended name for baby boy: Syed\nRecommended name for baby girl: Emily\n");
+		assertTrue(s1.equals(s2));
+	}
+		
+		@Test
+		//Normal case
+		public void testTask4_8() {
+			clickOn("#tabApp1");
+			TextField task4_dadname = (TextField)s.lookup("#textfieldDadName");
+			TextField task4_momname = (TextField)s.lookup("#textfieldMomName");
+			TextField task4_dadYOB = (TextField)s.lookup("#textfieldDadYOB");
+			TextField task4_momYOB = (TextField)s.lookup("#textfieldMomYOB");
+			TextField task4_VinYear = (TextField)s.lookup("#textfieldVinYear");
+			task4_dadname.setText("Gary");
+			task4_momname.setText("Mary");
+			task4_dadYOB.setText("1900");
+			task4_momYOB.setText("1905");
+			task4_VinYear.setText("1999");
+			clickOn("#doTask4");
+			String s1 = t.getText();
+			String s2 = String.format("Recommended name for baby boy: Syed\nRecommended name for baby girl: Emily\n");
+			assertTrue(s1.equals(s2));
+		
+	}
+	
 }
