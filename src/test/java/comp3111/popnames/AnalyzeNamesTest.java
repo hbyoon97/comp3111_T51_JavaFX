@@ -94,4 +94,24 @@ public class AnalyzeNamesTest {
     	assertEquals(result, 0);
     }
     
+    @Test
+    //FrequentWordname
+    public void testFrequentWordname() {
+    	AnalyzeNames a = new AnalyzeNames();
+    	String arr[] = {"Gary", "Gary", "Gary", "John", "John", "Peter"};
+    	String name = a.FrequentWordname(arr);
+    	assertTrue(name.equals("Gary"));
+    	
+    }
+    
+    @Test
+    //FrequentWordnum
+    public void testFrequentWordnum() {
+    	AnalyzeNames a = new AnalyzeNames();
+    	String arr[] = {"Gary", "Gary", "Gary", "John", "John", "Peter"};
+    	int result = a.FrequentWordnum(arr);
+    	assertEquals(result, 3);
+    	
+    }
+    
 }
