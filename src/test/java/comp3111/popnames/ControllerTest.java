@@ -2,17 +2,29 @@ package comp3111.popnames;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.testfx.api.FxAssert;
+import org.testfx.api.FxRobot;
 import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.matcher.base.NodeMatchers;
+import org.testfx.matcher.control.LabeledMatchers;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.scene.robot.Robot;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 
 public class ControllerTest extends ApplicationTest {
@@ -647,4 +659,374 @@ public class ControllerTest extends ApplicationTest {
 		
 	}
 	
+	@Test
+	public void testTask3_1() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+		task3fromYear.setText("");
+//		task3toYear.setText("1945");
+//		task3topN.setText("");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		alert_dialog_has_header_and_content("Please input again", "The period cannot be empty.");
+	}
+	
+	@Test
+	public void testTask3_2() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+//		task3fromYear.setText("");
+		task3toYear.setText("");
+//		task3topN.setText("");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		alert_dialog_has_header_and_content("Please input again", "The period cannot be empty.");
+	}
+	
+	@Test
+	public void testTask3_3() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+//		task3fromYear.setText("");
+//		task3toYear.setText("");
+		task3topN.setText("");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		alert_dialog_has_header_and_content("Please input again", "The level of popularity cannot be empty.");
+	}
+	
+	@Test
+	public void testTask3_4() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+//		task3fromYear.setText("");
+//		task3toYear.setText("");
+		task3topN.setText("0");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		alert_dialog_has_header_and_content("Please input again", "The popularity should not be zero or negative.");
+	}
+	
+	@Test
+	public void testTask3_5() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+		task3fromYear.setText("2000");
+		task3toYear.setText("2099");
+//		task3topN.setText("0");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		alert_dialog_has_header_and_content("Please input again", "The period should not be later than 2019.");
+	}
+	
+	@Test
+	public void testTask3_6() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+		task3fromYear.setText("1800");
+		task3toYear.setText("2099");
+//		task3topN.setText("0");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		alert_dialog_has_header_and_content("Please input again", "The period should not be earlier than 1880.");
+	}
+	
+	@Test
+	public void testTask3_7() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+		task3fromYear.setText("1999");
+		task3toYear.setText("1988");
+//		task3topN.setText("0");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		alert_dialog_has_header_and_content("Please input again", "The period is not valid.");
+	}
+	
+	@Test
+	// normal case
+	public void testTask3_8() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+//		task3fromYear.setText("");
+//		task3toYear.setText("");
+//		task3topN.setText("99999");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		testing_task3_pop_up("9 names are found to be maintained at a high level of popularity within Top 10 over the period from year 1941 to year 1945.");
+	}
+	
+	@Test
+	// extreme case, top 99999
+	public void testTask3_9() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+//		task3fromYear.setText("");
+//		task3toYear.setText("");
+		task3topN.setText("99999");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		testing_task3_pop_up("2745 names are found to be maintained at a high level of popularity within Top 99999 over the period from year 1941 to year 1945.");
+	}
+	
+	@Test
+	// normal case
+	public void testTask3_10() {
+		clickOn("#tabReport3");
+		TextField task3fromYear = (TextField)s.lookup("#task3fromYear");
+		TextField task3toYear = (TextField)s.lookup("#task3toYear");
+		TextField task3topN = (TextField)s.lookup("#task3topN");
+		
+		task3fromYear.setText("1941");
+		task3toYear.setText("1941");
+		task3topN.setText("5");
+//		clickOn("#task3Male");
+		clickOn("#doTask3");
+		
+		testing_task3_pop_up("5 names are found to be maintained at a high level of popularity within Top 5 over the period from year 1941 to year 1941.");
+	}
+	
+	
+
+	@Test
+	//test user name empty
+	public void testTask6_1() {
+		clickOn("#tabApp3");
+		TextField task6userName = (TextField)s.lookup("#task6userName");
+		TextField task6userYob = (TextField)s.lookup("#task6userYob");
+		TextField task6mateName = (TextField)s.lookup("#task6mateName");
+		
+		clickOn("#task6UserMale");
+		clickOn("#task6MateMale");		
+		task6userName.setText("");
+		task6userYob.setText("1900");
+		task6mateName.setText("Mary");
+		clickOn("#task6pref");
+		type(KeyCode.DOWN);
+		type(KeyCode.ENTER);
+		clickOn("#doTask6");
+		
+		
+		alert_dialog_has_header_and_content("Please input again", "Your name cannot be empty!");
+	}
+	
+	@Test
+	//test user YOB empty
+	public void testTask6_2() {
+		clickOn("#tabApp3");
+		TextField task6userName = (TextField)s.lookup("#task6userName");
+		TextField task6userYob = (TextField)s.lookup("#task6userYob");
+		TextField task6mateName = (TextField)s.lookup("#task6mateName");
+		
+		clickOn("#task6UserMale");
+		clickOn("#task6MateMale");		
+		task6userName.setText("Mary");
+		task6userYob.setText("");
+		task6mateName.setText("Mary");
+		clickOn("#task6pref");
+		type(KeyCode.DOWN);
+		type(KeyCode.ENTER);
+		clickOn("#doTask6");
+		
+		alert_dialog_has_header_and_content("Please input again", "Your YOB cannot be empty!");
+	}
+	
+	@Test
+	//test soulmate name empty
+	public void testTask6_3() {
+		clickOn("#tabApp3");
+		TextField task6userName = (TextField)s.lookup("#task6userName");
+		TextField task6userYob = (TextField)s.lookup("#task6userYob");
+		TextField task6mateName = (TextField)s.lookup("#task6mateName");
+		
+		clickOn("#task6UserMale");
+		clickOn("#task6MateMale");		
+		task6userName.setText("Mary");
+		task6userYob.setText("1999");
+		task6mateName.setText("");
+		clickOn("#task6pref");
+		type(KeyCode.DOWN);
+		type(KeyCode.ENTER);
+		clickOn("#doTask6");
+		
+		alert_dialog_has_header_and_content("Please input again", "Soulmate's name cannot be empty!");
+	}
+	
+	@Test
+	//test invalid user yob
+	public void testTask6_4() {
+		clickOn("#tabApp3");
+		TextField task6userName = (TextField)s.lookup("#task6userName");
+		TextField task6userYob = (TextField)s.lookup("#task6userYob");
+		TextField task6mateName = (TextField)s.lookup("#task6mateName");
+		
+		clickOn("#task6UserMale");
+		clickOn("#task6MateMale");		
+		task6userName.setText("Mary");
+		task6userYob.setText("2020");
+		task6mateName.setText("Mary");
+		clickOn("#task6pref");
+		type(KeyCode.DOWN);
+		type(KeyCode.ENTER);
+		clickOn("#doTask6");
+		
+		alert_dialog_has_header_and_content("Please input again", "Your YOB is our of range!");
+	}
+	
+	@Test
+	//test out of dataset year range
+	public void testTask6_5() {
+		clickOn("#tabApp3");
+		TextField task6userName = (TextField)s.lookup("#task6userName");
+		TextField task6userYob = (TextField)s.lookup("#task6userYob");
+		TextField task6mateName = (TextField)s.lookup("#task6mateName");
+		
+		clickOn("#task6UserMale");
+		clickOn("#task6MateMale");		
+		task6userName.setText("Mary");
+		task6userYob.setText("2019");
+		task6mateName.setText("Mary");
+		clickOn("#task6pref");
+		type(KeyCode.DOWN);  // younger
+		type(KeyCode.ENTER);
+		clickOn("#doTask6");
+		
+		alert_dialog_has_header_and_content("Please input again", "Your soulmate is too young!");
+	}
+	
+	@Test
+	//test out of dataset year range
+	public void testTask6_6() {
+		clickOn("#tabApp3");
+		TextField task6userName = (TextField)s.lookup("#task6userName");
+		TextField task6userYob = (TextField)s.lookup("#task6userYob");
+		TextField task6mateName = (TextField)s.lookup("#task6mateName");
+		
+		clickOn("#task6UserMale");
+		clickOn("#task6MateMale");		
+		task6userName.setText("Mary");
+		task6userYob.setText("1880");
+		task6mateName.setText("Mary");
+		clickOn("#task6pref");
+		type(KeyCode.DOWN);
+		type(KeyCode.DOWN);  // older
+		type(KeyCode.ENTER);
+		clickOn("#doTask6");
+		
+		alert_dialog_has_header_and_content("Please input again", "Your soulmate is too old!");
+	}
+	
+	@Test
+	//special case 99.5%
+	public void testTask6_7() {
+		clickOn("#tabApp3");
+		TextField task6userName = (TextField)s.lookup("#task6userName");
+		TextField task6userYob = (TextField)s.lookup("#task6userYob");
+		TextField task6mateName = (TextField)s.lookup("#task6mateName");
+		
+		clickOn("#task6UserMale");
+		clickOn("#task6MateMale");		
+		task6userName.setText("Peter");
+		task6userYob.setText("1899");
+		task6mateName.setText("Peter");
+		clickOn("#task6pref");
+		clickOn("#doTask6");
+		
+		String s1 = t.getText();
+		String s2 = "According to the NK-T5 Algorithm of Universal Compatibility:\n" + 
+				"The score of compatibility for you and your soulmate is 99.5%";
+		assertTrue(s1.equals(s2));
+	}
+	
+	@Test
+	//normal case
+	public void testTask6_8() {
+		clickOn("#tabApp3");
+		TextField task6userName = (TextField)s.lookup("#task6userName");
+		TextField task6userYob = (TextField)s.lookup("#task6userYob");
+		TextField task6mateName = (TextField)s.lookup("#task6mateName");
+		
+		clickOn("#task6UserMale");
+		clickOn("#task6MateMale");		
+		task6userName.setText("Terrie");
+		task6userYob.setText("1941");
+		task6mateName.setText("Peter");
+		clickOn("#task6pref");
+		clickOn("#doTask6");
+		
+		String s1 = t.getText();
+		String s2 = "According to the NK-T5 Algorithm of Universal Compatibility:\n" + 
+				"The score of compatibility for you and your soulmate is 32.5%";
+		assertTrue(s1.equals(s2));
+	}
+	
+	public void alert_dialog_has_header_and_content(final String expectedHeader, final String expectedContent) {
+	    final javafx.stage.Stage actualAlertDialog = getTopModalStage();
+	    assertNotNull(actualAlertDialog);
+
+	    final DialogPane dialogPane = (DialogPane) actualAlertDialog.getScene().getRoot();
+	    assertEquals(expectedHeader, dialogPane.getHeaderText());
+	    assertEquals(expectedContent, dialogPane.getContentText());
+	}
+	
+	public void testing_task3_pop_up(final String expectedContent) {
+	    final javafx.stage.Stage actualPopUp = getTopModalStage();
+	    assertNotNull(actualPopUp);
+
+	    final VBox vbox = (VBox) actualPopUp.getScene().getRoot();
+	    String actual = ((TextArea) vbox.getChildren().get(1)).getText();
+	    assertEquals(expectedContent, actual);
+	}
+
+	private javafx.stage.Stage getTopModalStage() {
+	    // Get a list of windows but ordered from top[0] to bottom[n] ones.
+	    // It is needed to get the first found modal window.
+		FxRobot robot = new FxRobot();
+	    final List<Window> allWindows = new ArrayList<>(robot.robotContext().getWindowFinder().listWindows());
+	    Collections.reverse(allWindows);
+
+	    return (javafx.stage.Stage) allWindows
+	            .stream()
+	            .filter(window -> window instanceof javafx.stage.Stage)
+//	            .filter(window -> ((javafx.stage.Stage) window).getModality() == Modality.APPLICATION_MODAL)
+	            .findFirst()
+	            .orElse(null);
+	}
+
 }

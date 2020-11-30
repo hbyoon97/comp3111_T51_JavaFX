@@ -3,6 +3,8 @@ package comp3111.popnames;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 public class AnalyzeNamesTest {
 	
     @Test 
@@ -112,6 +114,17 @@ public class AnalyzeNamesTest {
     	int result = a.FrequentWordnum(arr);
     	assertEquals(result, 3);
     	
+    }
+    
+    @Test
+    //FrequentWordnum
+    public void testTask3_1() {
+    	Map<String, int[]> test = AnalyzeNames.getTask3(1941, 1942, "F", 5);
+    	// Map:  name, int[]: lowYear, lowRank, HiYear, HiRank, counter(no use)
+    	
+    	assertTrue(test.get("Mary")[1] == 1);
+    	assertTrue(test.get("Carol")[1] == 5);
+    	assertTrue(test.get("Carol")[0] == 1942);
     }
     
 }
