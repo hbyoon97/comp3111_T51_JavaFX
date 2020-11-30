@@ -129,7 +129,7 @@
                                     <NumberTextField fx:id="task3fromYear" layoutX="241.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
                                     <NumberTextField fx:id="task3topN" layoutX="241.0" layoutY="166.0" prefHeight="26.0" prefWidth="43.0" text="10" />
                                     <Label layoutX="289.0" layoutY="136.0" text="to" />
-                                    <Button layoutX="112.0" layoutY="209.0" mnemonicParsing="false" text="REPORT" onAction="#doTask3" />
+                                    <Button fx:id="doTask3" layoutX="112.0" layoutY="209.0" mnemonicParsing="false" text="REPORT" onAction="#doTask3" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -251,12 +251,12 @@
                                                 <Label text="YOB:" GridPane.rowIndex="2" />
                                                 <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                    <children>
-                                                      <RadioButton mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" selected="true" text="Male">
+                                                      <RadioButton fx:id="task6UserMale" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" selected="true" text="Male">
                                                          <toggleGroup>
                                                             <ToggleGroup fx:id="T61" />
                                                          </toggleGroup>
                                                       </RadioButton>
-                                                      <RadioButton mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Female" toggleGroup="$T61" />
+                                                      <RadioButton fx:id="task6UserFemale" mnemonicParsing="false" prefHeight="31.0" prefWidth="70.0" text="Female" toggleGroup="$T61" />
                                                    </children>
                                                 </HBox>
                                                 <NumberTextField fx:id="task6userYob" prefHeight="23.0" prefWidth="141.0" GridPane.columnIndex="1" GridPane.rowIndex="2" promptText="1880 - 2019"/>
@@ -287,12 +287,12 @@
                                                 <Label prefHeight="18.0" prefWidth="56.0" text="Gender:" GridPane.rowIndex="1" />
                                                 <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                    <children>
-                                                      <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="78.0" selected="true" text="Male">
+                                                      <RadioButton fx:id="task6MateMale" mnemonicParsing="false" prefHeight="30.0" prefWidth="78.0" selected="true" text="Male">
                                                          <toggleGroup>
                                                             <ToggleGroup fx:id="T62" />
                                                          </toggleGroup>
                                                       </RadioButton>
-                                                      <RadioButton mnemonicParsing="false" prefHeight="30.0" prefWidth="83.0" text="Female" toggleGroup="$T62" />
+                                                      <RadioButton fx:id="task6MateFemale" mnemonicParsing="false" prefHeight="30.0" prefWidth="83.0" text="Female" toggleGroup="$T62" />
                                                    </children>
                                                 </HBox>
                                              </children>
@@ -315,7 +315,7 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <Button layoutX="330.0" layoutY="232.0" mnemonicParsing="false" onAction="#doTask6" text="Submit" />
+                              <Button fx:id="doTask6" layoutX="330.0" layoutY="232.0" mnemonicParsing="false" onAction="#doTask6" text="Submit" />
                            </children>
                         </AnchorPane>
                     </content>

@@ -119,6 +119,9 @@ public class Controller {
 	private NumberTextField task3topN;
 	
 	@FXML
+	private Button doTask3;
+	
+	@FXML
 	private Button buttonReport;
 
 	@FXML
@@ -199,23 +202,38 @@ public class Controller {
 	  @FXML
 	  private NumberTextField textfieldVinYear;
 	  
-	    @FXML
-	    private TextField task6userName;
+    @FXML
+    private TextField task6userName;
 
-	    @FXML
-	    private ToggleGroup T61;
+    @FXML
+    private ToggleGroup T61;
 
-	    @FXML
-	    private NumberTextField task6userYob;
+    @FXML
+    private NumberTextField task6userYob;
 
-	    @FXML
-	    private TextField task6mateName;
+    @FXML
+    private TextField task6mateName;
 
-	    @FXML
-	    private ToggleGroup T62;
+    @FXML
+    private ToggleGroup T62;
 
-	    @FXML
-	    private ChoiceBox<?> task6pref;
+    @FXML
+    private ChoiceBox<?> task6pref;
+	    
+	@FXML
+	private RadioButton task6UserMale;
+	
+	@FXML
+	private RadioButton task6UserFemale;
+	
+	@FXML
+	private RadioButton task6MateMale;
+	
+	@FXML
+	private RadioButton task6MateFemale;
+	
+	@FXML
+	private Button doTask6;
 
 	@FXML
 	private void initialize() {
@@ -299,13 +317,20 @@ public class Controller {
 			oReport += String.format("#%d: %s\n", i, AnalyzeNames.getName(iYear, i, "M"));
 		textAreaConsole.setText(oReport);
 	}
+	
 
 	/**
-	 * Task Three
 	 * 
+	 * Generate a pop-up window in response to the queries on identifying the names 
+	 * that have maintained a high level of popularity within Top N over a given period.
+	 * 
+	 * The pop-up window displays a summary of the results and also detailed result 
+	 * illustrated with a table.
+	 * 
+	 * @author Peter Chau Chun Wang
 	 */
 	@FXML
-	void doTask3() {
+	public void doTask3() {
 		int fromYear;
 		int toYear;
 		int topN;
@@ -447,6 +472,11 @@ public class Controller {
 		task3Stage.show();
 	}
 
+	/**
+	 * Display an alert dialog of input error
+	 * 
+	 * @param msg Input error specification
+	 */
 	public static void showAlert(String msg) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Error");
@@ -906,15 +936,17 @@ public class Controller {
 	}
 
     /**
-     * Task 6
+     * Prediction on Scores for Compatible Pairs
+     * 
+     * @author Peter Chau Chun Wang
      */
     @FXML
-    void doTask6() {
+    public void doTask6() {
     	String userName = task6userName.getText();
-    	String userGender = ((RadioButton) T61.getSelectedToggle()).getText() == "Male" ? "M" : "F";
+    	String userGender = ((RadioButton) T61.getSelectedToggle()).getText().equals("Male") ? "M" : "F";
     	String userYobString = task6userYob.getText();
     	String mateName = task6mateName.getText();
-    	String mateGender = ((RadioButton) T62.getSelectedToggle()).getText() == "Male" ? "M" : "F";
+    	String mateGender = ((RadioButton) T62.getSelectedToggle()).getText().equals("Male") ? "M" : "F";
     	String preference = (String) task6pref.getSelectionModel().getSelectedItem();
     	
 //    	String oReport = userName + userGender + userYob + mateName + mateGender + preference;
@@ -950,16 +982,21 @@ public class Controller {
     	
     	// start calculating score
     	int oRank = AnalyzeNames.getRank(userYob, userName, userGender);
-    	if(oRank == -1) oRank = 1;
+    	if(oRank == -1) oRank = userName.hashCode() % 100;
     	
     	int oYOB = userYob;
     	if(preference.equals("Younger")) oYOB++;
     	if(preference.equals("Older")) oYOB--;
     	
     	int oRankMate = AnalyzeNames.getRank(oYOB, mateName, mateGender);
-    	if(oRankMate == -1) oRankMate = 1;
+    	if(oRankMate == -1) oRankMate = mateName.hashCode() % 100;
     	
-    	double oScore = (1 - Math.abs(oRank - (double) oRankMate / oRank)) * 100;
+    	double magicFraction = (oRankMate < oRank) ? (double) oRankMate / (oRank + 1) : (double) oRank / (oRankMate + 1);
+    	
+    	double oScore = Math.sqrt(Math.sqrt(Math.abs(magicFraction))) * 100;
+    	
+    	if(oScore > 100) oScore = 100;
+    	if(oScore < 0 ) oScore = 0;
     	
     	// finish calculation
     	String oReport = String.format("According to the NK-T5 Algorithm of Universal Compatibility:\nThe score of compatibility for you and your soulmate is %.1f%%", oScore);

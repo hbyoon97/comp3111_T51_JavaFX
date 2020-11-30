@@ -140,10 +140,21 @@ public class AnalyzeNames {
 //		return ret;
 //	}
 	
-	// eg fromYear=1941  toYear=1945  gender=F  topN=10
+
+	/**
+	 *  
+	 * @param fromYear The year where the query period starts from.
+	 * @param toYear The year where the query period ends in.
+	 * @param gender The gender for the names of interest
+	 * @param topN The level of popularity
+	 * 
+	 * @return Map with Name as key, Data as value. Data are in order of lowest year, 
+	 * lowest rank, highest year, highest rank and counter (number of years that the Name exists, 
+	 * which should equal to topN when return)
+	 */
 	public static Map<String, int[]> getTask3(int fromYear, int toYear, String gender, int topN) {
+		// eg fromYear=1941  toYear=1945  gender=F  topN=10
 		int yearRange = toYear - fromYear + 1;  // 1941 - 1945 = 5
-//		ArrayList<ArrayList<Map<String, Integer>>> topArr = new ArrayList<>();  // used to store top name info
 		
 		Map<String, int[]> topMap = new HashMap<>(); // name, List: lowYear, lowRank, HiYear, HiRank, counter
 		Map<String, int[]> topMapFinal = new HashMap<>();
