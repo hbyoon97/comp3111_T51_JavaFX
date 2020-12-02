@@ -489,6 +489,12 @@ public class Controller {
 	/**
 	 * Task One
 	 * 
+	 * Generate a brief report in response to the queries on 
+	 * the most popular names registered at birth over a given period.
+	 * 
+	 * Provide detailed results, illustrated with a table and
+	 * a summary of the results.
+	 * 
 	 */
 
 	@FXML
@@ -864,6 +870,7 @@ public class Controller {
     /**
 	 * Task 4
 	 * 
+	 * Generate a brief report in response to the queries on the recommended names for newborn.
 	 * 
 	 */
 	
