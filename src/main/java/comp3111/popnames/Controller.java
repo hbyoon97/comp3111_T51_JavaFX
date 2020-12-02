@@ -790,7 +790,7 @@ public class Controller {
     		else oYOB = Integer.parseInt(YOB) - 1;
     		
     		String oName = AnalyzeNames.getName(oYOB, oRank, rbValue[1]);
-    		if(oName.equals("information on the name at the specified rank is not available")) {
+    		if(oName.equals("NoResult")) {
     			oName = AnalyzeNames.getName(oYOB, 1, rbValue[1]);
     		}
     
