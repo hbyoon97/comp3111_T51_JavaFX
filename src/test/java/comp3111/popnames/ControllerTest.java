@@ -41,7 +41,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask2");
 //		sleep(1000);
 		String s1 = t.getText();
-//		sleep(1000);
+		sleep(10000);
 		String s2 = "Name field cannot be blank";
 		assertTrue(s1.equals(s2));
 	}
@@ -56,6 +56,7 @@ public class ControllerTest extends ApplicationTest {
 //		sleep(1000);
 		String s1 = t.getText();
 //		sleep(1000);
+		sleep(10000);
 		String s2 = "Period field cannot be blank";
 		assertTrue(s1.equals(s2));
 	}
@@ -77,6 +78,7 @@ public class ControllerTest extends ApplicationTest {
 //		sleep(1000);
 		String s1 = t.getText();
 //		sleep(1000);
+		sleep(10000);
 		String s2 = "Please input valid period (1880 - 2019)";
 		assertTrue(s1.equals(s2));
 	}
@@ -97,6 +99,7 @@ public class ControllerTest extends ApplicationTest {
 //		sleep(1000);
 		String s1 = t.getText();
 //		sleep(1000);
+		sleep(10000);
 		String s2 = "Please input numbers into period field";
 		assertTrue(s1.equals(s2));
 	}
@@ -115,6 +118,7 @@ public class ControllerTest extends ApplicationTest {
 //		sleep(1000);
 		String s1 = t.getText();
 //		sleep(1000);
+		sleep(10000);
 		String result = "There was no Ida (M) born from 2000 to 2019!";
 		assertTrue(s1.equals(result));
 	}
@@ -131,6 +135,7 @@ public class ControllerTest extends ApplicationTest {
 		task2_period2.setText("1967");
 		clickOn("#doTask2");
 //		sleep(1000);
+		sleep(10000);
 		String s1 = t.getText();
 //		sleep(1000);
 		
@@ -165,6 +170,7 @@ public class ControllerTest extends ApplicationTest {
 		result += "The name Ida (M) has not been ranked in the year 1968.\n";
 		result += "Within the specified period, the year when the name Ida was most popular is 1967.\n";
 		result += "In that year, the number of births is 8, which represents a 0.00046 percent of the total male birth in 1967.";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -215,6 +221,7 @@ public class ControllerTest extends ApplicationTest {
     	result += "In the year 2019 the number of birth with name William is 13542, which represents 0.76081 percent of total male births in 2019.\n";
     	result += "Within the specified period, the year when the name William was most popular is 2011.\n";
     	result += "In that year, the number of births is 17314, which represents a 0.91452 percent of the total male birth in 2011.";
+    	sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -231,6 +238,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask5");
 		String s1 = t.getText();
 		String result = "According to the NK-T5 Algorithm of Universal Compatibility, the recommended name of the soulmate is Meredith.";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -250,6 +258,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask5");
 		String s1 = t.getText();
 		String result = "According to the NK-T5 Algorithm of Universal Compatibility, the recommended name of the soulmate is Colin.";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -260,6 +269,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask5");
 		String s1 = t.getText();
 		String result = "Name field cannot be blank";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -272,6 +282,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask5");
 		String s1 = t.getText();
 		String result = "Please input a number in the YOB field.";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -286,6 +297,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask5");
 		String s1 = t.getText();
 		String result = "Please input valid year of birth (1880 - 2019)";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -302,6 +314,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask5");
 		String s1 = t.getText();
 		String result = "There exists no data for anyone born in year before 1880";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -318,6 +331,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask5");
 		String s1 = t.getText();
 		String result = "There exists no data for anyone born in year after 2019";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -332,6 +346,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask5");
 		String s1 = t.getText();
 		String result = "Please input a number in the YOB field.";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 	
@@ -346,6 +361,7 @@ public class ControllerTest extends ApplicationTest {
 		clickOn("#doTask5");
 		String s1 = t.getText();
 		String result = "According to the NK-T5 Algorithm of Universal Compatibility, the recommended name of the soulmate is Michael.";
+		sleep(10000);
 		assertTrue(s1.equals(result));
 	}
 }
