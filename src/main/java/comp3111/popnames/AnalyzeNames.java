@@ -219,7 +219,12 @@ public class AnalyzeNames {
 		return topMapFinal;
 
 	}
-
+	
+	/**
+	 *
+	 * @param array an array with names
+	 * @return the name that appears most frequently in the array
+	 */
 
 	// Function to calculate the most frequent word in the array.
 	public static String FrequentWordname(String array[]) {
@@ -250,6 +255,13 @@ public class AnalyzeNames {
 		return maxStr;
 
 	}
+	
+	/**
+	 * 
+	 * @param array an array with names
+	 * @return number of times that the most popular name in the array appears
+	 * 
+	 */
 
 	public static int FrequentWordnum(String array[]) {
 		// Insert all unique strings and update count if a string is not unique.
