@@ -540,10 +540,14 @@ public class Controller {
 	}
 
 	 /**
-     *  Task Two
-     *  To be triggered by the REPORT button on the Task Zero Tab
-     *  
-     */
+	  * 
+	  * Generate a brief report in response to the queries on 
+	  * the popularity of a particular name over a given period.
+	  * 
+	  * Displays a summary of the results 
+	  * along with a detailed result illustrated with a table
+	  * 
+	  */
     @FXML
     void doTask2() {
     	String oReport = "";
@@ -683,6 +687,13 @@ public class Controller {
     	}
     	textAreaConsole.setText(oReport);
     }
+    
+    /**
+	  * 
+	  * Generate a recommended name of the soulmate according to the NK-T5 Algorithm
+	  *
+	  * 
+	  */
   
     @FXML
     void doTask5() {

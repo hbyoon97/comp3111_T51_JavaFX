@@ -218,6 +218,14 @@ public class AnalyzeNames {
 		return maxVal;
 	}
 	
+	/**
+	 * 
+	 * @param name: input name
+	 * @param gender: input gender (male or female)
+	 * @param year: input year (corresponds to y2)
+	 * @return: the count of specified name of specified gender in specified year
+	 */
+	
 	 public static int getNameCount(String name, String gender, int year) {
 		 int count = 0;
 		 for (CSVRecord rec : getFileParser(year)) {
@@ -227,6 +235,13 @@ public class AnalyzeNames {
 		 }
 		 return count;
 	 }
+	 
+	 /**
+	  * 
+	  * @param year: input year (corresponds to y2)
+	  * @param gender: input gender (male or female)
+	  * @return: the total number of births of a gender in specified year
+	  */
 	 
 	 public static int getTotalBirths(int year, String gender) {
 		 int totalBirth = 0;
@@ -239,6 +254,14 @@ public class AnalyzeNames {
 		 return totalBirth;
 	 }
 	 
+	 /**
+	  * 
+	  * @param period1: lower bound input year (corresponds to y1)
+	  * @param period2: upper boudn input year (corresponds to y2)
+	  * @param name: input name
+	  * @param gender: input gender (male or female)
+	  * @return: the year within [period1, period 2] where the specified name has the lowest rank
+	  */
 	 public static int mostPopularYear(int period1, int period2, String name, String gender) {
 		 int popular_year = 0;
 		 int maxRank = 10000;
